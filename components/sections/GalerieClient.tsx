@@ -1,7 +1,3 @@
-/**
- * @description Wrapper client pour la Galerie afin d'éviter les mismatches d'hydratation sur mobile/desktop.
- * Le rendu se fait 100% côté client, avec un fallback léger.
- */
 "use client";
 
 import dynamic from "next/dynamic";

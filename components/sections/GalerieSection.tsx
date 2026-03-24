@@ -11,19 +11,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import { Play, ExternalLink, Camera } from "lucide-react";
-
-// Top Viewed Official YouTube Videos (Clean & Synchronized)
-const videos = [
-   { id: "lcmT2sUppFA", label: "Fitè (Clip Officiel)", type: "13M+ Vues", featured: true },
-   { id: "8dfMBHVV9HA", label: "Russie (feat. HIMRA)", type: "8.4M+ Vues", featured: false },
-   { id: "KXmn-LWazy8", label: "DIYO", type: "6M+ Vues", featured: false },
-   { id: "ppiPCJrTO2I", label: "Do Bandit Min (Clip Officiel)", type: "4.1M+ Vues", featured: true },
-   { id: "L6B4MsYQ8Fk", label: "Tu mérites tout (Clip Officiel)", type: "4.2M+ Vues", featured: false },
-   { id: "FIO_LoEDW8g", label: "C'est Toi", type: "4.7M+ Vues", featured: false },
-   { id: "Y5BzevHKj70", label: "Week End Mood", type: "4.6M+ Vues", featured: false },
-   { id: "gydrSdjIpOc", label: "Coup Monté", type: "2.4M+ Vues", featured: false },
-   { id: "QbstAWxoU24", label: "Bô Ébi", type: "2.7M+ Vues", featured: false },
-];
+import { GALLERY_VIDEOS } from "@/lib/galleryVideos";
 
 const YtIcon = ({ size = 20 }: { size?: number }) => (
    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -90,7 +78,7 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
-               {videos.map((vid, i) => {
+               {GALLERY_VIDEOS.map((vid, i) => {
                   const isFeatured = vid.featured;
                   const gridClass = isFeatured ? "lg:col-span-8 lg:row-span-2" : "lg:col-span-4 lg:row-span-1";
 
