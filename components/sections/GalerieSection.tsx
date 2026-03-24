@@ -21,7 +21,7 @@ const videos = [
    { id: "L6B4MsYQ8Fk", label: "Tu mérites tout (Clip Officiel)", type: "4.2M+ Vues", featured: false },
    { id: "FIO_LoEDW8g", label: "C'est Toi", type: "4.7M+ Vues", featured: false },
    { id: "Y5BzevHKj70", label: "Week End Mood", type: "4.6M+ Vues", featured: false },
-   { id: "HCSr8UR3y94", label: "Tonsinmin Chap ! (feat. NG Bling)", type: "1.2M+ Vues", featured: false },
+   { id: "DfzVN2aAfg0", label: "Enfant de Dieu (Clip Officiel)", type: "1.8M+ Vues", featured: false },
    { id: "QbstAWxoU24", label: "Bô Ébi", type: "2.7M+ Vues", featured: false },
 ];
 
