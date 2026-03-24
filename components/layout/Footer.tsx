@@ -50,21 +50,21 @@ export function Footer() {
     <footer className="relative py-20 bg-bg-primary border-t border-white/5 overflow-hidden">
       {/* Decorative Brand Watermark */}
       <div className="absolute -bottom-10 right-0 opacity-[0.02] select-none pointer-events-none">
-         <span className="font-bebas text-[10rem] text-white tracking-widest uppercase">AZÉTO GBÈDÈ</span>
+        <span className="font-bebas text-[10rem] text-white tracking-widest uppercase">AZÉTO GBÈDÈ</span>
       </div>
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="grid lg:grid-cols-4 gap-16 lg:gap-8 mb-20">
-          
+
           {/* Brand Identity */}
           <div className="lg:col-span-2 space-y-6">
             <Link href="/" className="inline-block group">
-               <span className="font-bebas text-4xl text-white tracking-widest group-hover:text-red-600 transition-colors">
-                  {ARTIST.stageName.split(' ')[0]} <span className="text-red-600 group-hover:text-white transition-colors">{ARTIST.stageName.split(' ')[1]}</span>
-               </span>
+              <span className="font-bebas text-4xl text-white tracking-widest group-hover:text-red-600 transition-colors">
+                {ARTIST.stageName.split(' ')[0]} <span className="text-red-600 group-hover:text-white transition-colors">{ARTIST.stageName.split(' ')[1]}</span>
+              </span>
             </Link>
             <p className="text-text-secondary text-sm max-w-sm leading-relaxed">
-              Le Sorcier Vivant. L'icône du rap urbain béninois. 
+              Le Sorcier Vivant. L'icône du rap urbain béninois.
               Une authenticité qui dérange, une plume qui transcende.
             </p>
             <div className="flex gap-4">
@@ -87,11 +87,11 @@ export function Footer() {
           <div className="space-y-6">
             <h4 className="text-[10px] uppercase font-bold tracking-[0.4em] text-white/60">Navigation</h4>
             <nav className="flex flex-col gap-4">
-               {navLinks.map(link => (
-                 <Link key={link.href} href={link.href} className="text-sm text-text-secondary hover:text-red-500 transition-colors uppercase tracking-widest font-medium">
-                    {link.label}
-                 </Link>
-               ))}
+              {navLinks.map(link => (
+                <Link key={link.href} href={link.href} className="text-sm text-text-secondary hover:text-red-500 transition-colors uppercase tracking-widest font-medium">
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
 
@@ -99,25 +99,25 @@ export function Footer() {
           <div className="space-y-6">
             <h4 className="text-[10px] uppercase font-bold tracking-[0.4em] text-white/60">Management</h4>
             <div className="space-y-3">
-               <p className="text-sm font-bold text-white uppercase tracking-widest">Booking Office</p>
-               <a href={`mailto:${CONTACT.email}`} className="block text-sm text-text-secondary hover:text-white transition-colors">{CONTACT.email}</a>
-               <p className="text-sm text-text-secondary">{CONTACT.phone}</p>
-               <p className="text-xs text-white/60 mt-4 leading-relaxed">{CONTACT.address}</p>
+              <p className="text-sm font-bold text-white uppercase tracking-widest">Booking Office</p>
+              <a href={`mailto:${CONTACT.email}`} className="block text-sm text-text-secondary hover:text-white transition-colors">{CONTACT.email}</a>
+              <p className="text-sm text-text-secondary">{CONTACT.phone}</p>
+              <p className="text-xs text-white/60 mt-4 leading-relaxed">{CONTACT.address}</p>
             </div>
           </div>
         </div>
 
         {/* Legal & Copyright */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-           <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
-              © {year} {ARTIST.stageName}. All Rights Reserved.
-           </p>
-           <div className="flex gap-8">
-              <Link href="#" className="text-[10px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">Politique de Confidentialité</Link>
-              <a href="https://ceo.nexuspartners.xyz" target="_blank" className="text-[10px] uppercase tracking-widest text-white/60 hover:text-red-500 transition-colors font-bold">
-                 Nexus Partners Excellence
-              </a>
-           </div>
+          <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
+            © {year} {ARTIST.stageName}. All Rights Reserved.
+          </p>
+          <div className="flex gap-8">
+            <Link href="#" className="text-[10px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">Politique de Confidentialité</Link>
+            <a href="https://nexus-partners.xyz" target="_blank" className="text-[10px] uppercase tracking-widest text-white/60 hover:text-red-500 transition-colors font-bold">
+              Nexus Partners Excellence
+            </a>
+          </div>
         </div>
       </div>
     </footer>
