@@ -1,17 +1,28 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description GalerieSection — Varied Grid Rhythm Responsive (A11y & SEO optimized)
+ * @description GalerieSection — Varied Grid Rhythm Responsive (Updated with real Vano Baby Videos)
  * @created 2026-03-24
- * @updated 2026-03-24 Mobile-first Grids, Touch targets 48px, SEO (H1 support)
+ * @updated 2026-03-24 Integration of Official YouTube Videos (2024-2026)
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
-import { Play, TrendingUp, Music, ExternalLink, Camera } from "lucide-react";
-import { ARTIST } from "@/lib/data";
+import { Play, ExternalLink, Camera } from "lucide-react";
+
+// Official YouTube Video Data Scraped
+const videos = [
+  { id: "ZpD391R8b4A", label: "Qui peut nous gagner", type: "Single 2026", featured: true },
+  { id: "QbstAWxoU24", label: "Bô Ébi (Clip Officiel)", type: "Clip 2025", featured: false },
+  { id: "8XJtZ1e2j7c", label: "DO BANDIT MIN", type: "Clip 2025", featured: false },
+  { id: "0J0h7jW8D_g", label: "Amour Compliqué (feat. Lauraa)", type: "Collaboration", featured: true },
+  { id: "qM_jN_oR_E8", label: "Jamais séparé (feat. 2H)", type: "Clip 2025", featured: false },
+  { id: "C7dY_3wK53g", label: "Zando (Adjapiano Xxl)", type: "Hit 2024", featured: false },
+  { id: "_gV808FqI_4", label: "Fité", type: "Clip 2024", featured: false },
+  { id: "mYp5900o1Yc", label: "La Souris Danse (feat. Axel Merryl)", type: "Hit", featured: false },
+];
 
 const YtIcon = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -19,15 +30,6 @@ const YtIcon = ({ size = 20 }: { size?: number }) => (
     <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f0f0f" />
   </svg>
 );
-
-const videos = [
-  { id: "DtIqJ3m6R30", label: "DIYØ (Clip Officiel)", type: "Clip", featured: true },
-  { id: "C3JMhV5i_9Q", label: "Madame (Clip Officiel)", type: "Clip", featured: false },
-  { id: "u4tJWhfM4wA", label: "Bella (feat. Blaaz)", type: "Clip", featured: false },
-  { id: "wLg6R6S90nU", label: "Adigoue Gboun Gboun", type: "Hit", featured: true },
-  { id: "3fU7M9_X4Y8", label: "Eusèbe Dossou", type: "Live", featured: false },
-  { id: "X6MvFf5Y6Zc", label: "Russie (feat. Himra)", type: "Clip", featured: false },
-];
 
 interface GalerieSectionProps {
   isPageTitle?: boolean;
@@ -52,15 +54,37 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
               transition={{ duration: 0.8 }}
               className="max-w-3xl"
            >
-              <span className="section-subtitle">Vidéos & Clips</span>
+              <span className="section-subtitle">Vidéos & Clips Officiels</span>
               <HeadingTag className="section-title text-white mb-6">
                  Galerie <br />
-                 <span className="text-red-700 italic">Multi-Dimensions</span>
+                 <span className="text-red-700 italic">Impact Visuel</span>
               </HeadingTag>
               <p className="text-base sm:text-xl text-text-secondary leading-relaxed border-l border-red-600/30 pl-8">
-                 Plongez au cœur de l'univers visuel du <span className="text-white font-bold">Gang</span>. 
-                 Clips officiels et souvenirs backstage exclusifs.
+                 Retrouvez les derniers clips et collaborations de <span className="text-white font-bold">Vano Baby</span>. 
+                 Une immersion totale dans l'esthétique du Rap Béninois.
               </p>
+           </motion.div>
+
+           <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 1.2, delay: 0.4 }}
+              className="hidden lg:block relative p-4 border border-white/10 bg-white/[0.02] backdrop-blur-3xl rounded-sm"
+           >
+               <div className="flex items-center gap-4 mb-3">
+                  <Camera size={18} className="text-red-600" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">Exclusive Archive</span>
+               </div>
+               <div className="relative w-56 aspect-[4/3] overflow-hidden rounded-sm grayscale hover:grayscale-0 transition-all duration-700 cursor-help">
+                  <Image 
+                     src="/images/gallery_backstage.png" 
+                     alt="Backstage Archive"
+                     fill
+                     className="object-cover brightness-50 contrast-125"
+                     sizes="250px"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-bg-primary via-transparent to-transparent" />
+               </div>
            </motion.div>
         </div>
 
@@ -79,7 +103,7 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: i * 0.1, duration: 0.8 }}
                 className={`${gridClass} glass-card relative flex flex-col items-center justify-center cursor-pointer group overflow-hidden min-h-[300px] border border-white/5 rounded-sm outline-none`}
-                aria-label={`Regarder le Clip ${vid.label} sur YouTube — Ouvre un nouvel onglet`}
+                aria-label={`Regarder le Clip ${vid.label} sur YouTube`}
                 suppressHydrationWarning
               >
                 <div className="absolute inset-0 z-0 bg-bg-secondary">
@@ -108,6 +132,26 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
               </motion.a>
             );
           })}
+        </div>
+
+        <div className="mt-32 pt-20 border-t border-white/5 flex flex-col items-center">
+           <motion.a
+              href="https://www.youtube.com/@VANOBABY"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -5 }}
+              className="flex flex-col items-center gap-8 group cursor-pointer outline-none p-4"
+              aria-label="S'abonner à la chaîne YouTube officielle de Vano Baby"
+           >
+              <div className="relative w-28 h-28 flex items-center justify-center bg-white/[0.03] border border-white/10 rounded-full transition-all duration-700 group-hover:border-red-600/50 group-hover:glow-box-red group-hover:bg-red-600/5">
+                 <YtIcon size={48} />
+                 <div className="absolute inset-[-10px] rounded-full border border-red-600/10 animate-ping opacity-0 group-hover:opacity-100" />
+              </div>
+              <div className="text-center space-y-2">
+                 <span className="block text-lg font-bebas text-white tracking-[0.4em] uppercase">Vano Baby Official</span>
+                 <span className="block text-[10px] font-bold text-white/30 uppercase tracking-[0.6em] group-hover:text-red-600 transition-colors">Digital Dominance</span>
+              </div>
+           </motion.a>
         </div>
       </div>
     </section>
