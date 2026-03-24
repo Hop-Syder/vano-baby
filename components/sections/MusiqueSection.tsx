@@ -1,192 +1,143 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description MusiqueSection — Discographie Vano Baby
+ * @description MusiqueSection — Spotlight Rhythm & Responsive Grids (SEO & A11y optimized)
  * @created 2026-03-24
+ * @updated 2026-03-24 SEO (H1 Support), Mobile-first, Touch targets 48px
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Play, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { Play, TrendingUp, Music, ExternalLink } from "lucide-react";
+import { TRACKS_HITS, TRACKS_RECENT, SOCIALS, ARTIST } from "@/lib/data";
 
-const hits = [
-  { title: "Diyo", year: "2022", tag: "Mega-Hit", color: "#8B0000" },
-  { title: "Bella", year: "2019", tag: "Classique", color: "#5c0000" },
-  { title: "Madame", year: "2018", tag: "Banger", color: "#3d0000" },
-  { title: "Adigoue Gboun Gboun", year: "2016", tag: "Iconic", color: "#6e0000" },
-  { title: "Drague Azonto", year: "2013", tag: "1er Hit", color: "#4a0000" },
-  { title: "Nou towé lè", year: "2021", tag: "Street", color: "#7a0000" },
-  { title: "Je s'en fou", year: "2020", tag: "Anthem", color: "#5e0000" },
-  { title: "Tonssimè chap", year: "2020", tag: "Banger", color: "#480000" },
-];
+interface MusiqueSectionProps {
+  isPageTitle?: boolean;
+}
 
-const recent = [
-  { title: "Fité", year: "2024", feat: "" },
-  { title: "Russie", year: "2024", feat: "feat. HIMRA" },
-  { title: "Mahu Si", year: "2023", feat: "" },
-  { title: "C'est toi", year: "2023", feat: "" },
-];
-
-export function MusiqueSection() {
+export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const HeadingTag = isPageTitle ? "h1" : "h2";
 
   return (
-    <section
-      id="musique"
-      ref={ref}
-      className="relative py-28 overflow-hidden"
-      style={{ background: "var(--bg-secondary)" }}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <div className="section-line mx-auto" />
-          <span className="text-xs font-medium tracking-[0.3em] uppercase text-red-500 mb-4 block">
-            Sons &amp; Projets
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white">
-            Dis<span style={{ color: "var(--red-neon)" }}>cographie</span>
-          </h2>
-        </motion.div>
+    <section id="musique" ref={ref} className="relative section-padding bg-bg-secondary overflow-hidden">
+      <div className="absolute top-0 left-0 opacity-[0.03] select-none pointer-events-none px-4 lg:px-20">
+         <span className="font-bebas text-[15rem] lg:text-[25rem] leading-none text-white tracking-[0.2em] whitespace-nowrap">DISCO</span>
+      </div>
 
-        {/* Hits Grid */}
-        <div className="mb-16">
-          <h3 className="text-sm tracking-[0.3em] uppercase text-white/40 mb-6">
-            🔥 Les Hits
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {hits.map((track, i) => (
-              <motion.div
-                key={track.title}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: i * 0.07, duration: 0.5 }}
-                className="music-card glass-card group cursor-pointer"
-                style={{ aspectRatio: "1", cursor: "pointer" }}
-              >
-                {/* Cover gradient */}
-                <div
-                  className="w-full h-full flex flex-col items-center justify-center p-4 relative"
-                  style={{
-                    background: `linear-gradient(135deg, ${track.color} 0%, #0f0f0f 100%)`,
-                  }}
-                >
-                  <span
-                    className="font-bebas text-5xl mb-1 opacity-20 absolute top-2 right-3"
-                    style={{ color: "#FF1A1A" }}
-                  >
-                    VB
-                  </span>
-                  <span
-                    className="text-xs px-2 py-0.5 rounded mb-3"
-                    style={{
-                      background: "rgba(255,26,26,0.2)",
-                      color: "#ff6666",
-                    }}
-                  >
-                    {track.tag}
-                  </span>
-                  <h4 className="font-semibold text-white text-center text-sm leading-tight">
-                    {track.title}
-                  </h4>
-                  <span className="text-xs text-white/40 mt-1">{track.year}</span>
-
-                  {/* Hover overlay */}
-                  <div className="music-card-overlay">
-                    <div className="flex flex-col items-center gap-3">
-                      <a
-                        href={`https://www.youtube.com/results?search_query=vano+baby+${encodeURIComponent(track.title)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-12 h-12 rounded-full flex items-center justify-center cursor-pointer"
-                        style={{ background: "var(--red-neon)" }}
-                        aria-label={`Écouter ${track.title} sur YouTube`}
-                      >
-                        <Play size={18} fill="white" color="white" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Releases */}
-        <div>
-          <h3 className="text-sm tracking-[0.3em] uppercase text-white/40 mb-6">
-            📀 Dernières Sorties
-          </h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            {recent.map((track, i) => (
-              <motion.div
-                key={track.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.4 + i * 0.1, duration: 0.6 }}
-                className="glass-card flex items-center justify-between p-5 group cursor-pointer hover:glow-box-red transition-all duration-300"
-                style={{ cursor: "pointer" }}
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(255,26,26,0.12)" }}
-                  >
-                    <span className="font-bebas text-sm" style={{ color: "var(--red-neon)" }}>
-                      VB
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white group-hover:text-red-400 transition-colors">
-                      {track.title}{" "}
-                      {track.feat && (
-                        <span className="text-xs text-white/40 font-normal">{track.feat}</span>
-                      )}
-                    </h4>
-                    <span className="text-xs text-white/40">{track.year}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <a
-                    href={`https://www.youtube.com/results?search_query=vano+baby+${encodeURIComponent(track.title)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200"
-                    style={{ background: "rgba(255,26,26,0.15)" }}
-                    aria-label={`Écouter ${track.title}`}
-                  >
-                    <Play size={12} color="var(--red-neon)" fill="var(--red-neon)" />
-                  </a>
-                  <ExternalLink size={14} className="text-white/30 group-hover:text-white/60 transition-colors" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Streaming CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-center mt-14"
-        >
-          <a
-            href="https://www.youtube.com/@vanobaby"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline cursor-pointer inline-block"
+      <div className="container-custom relative z-10">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-12 lg:gap-20 mb-20 lg:mb-32">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="flex-1 max-w-3xl"
           >
-            Voir tous les sons →
-          </a>
-        </motion.div>
+            <span className="section-subtitle">Discographie</span>
+            <HeadingTag className="section-title text-white">
+              Le Son <br />
+              <span className="text-red-700">du Ghetto</span>
+            </HeadingTag>
+            <p className="text-base sm:text-xl text-text-secondary mt-8 leading-relaxed border-l border-red-600/30 pl-8">
+               Des hymnes de rue aux tubes internationaux officiels. Chaque titre est 
+               une pièce de l'histoire du <span className="text-white font-bold">Gang</span>.
+            </p>
+          </motion.div>
+
+          <motion.a
+             href={SOCIALS.youtube}
+             target="_blank"
+             rel="noopener noreferrer"
+             initial={{ opacity: 0, x: 30 }}
+             animate={inView ? { opacity: 1, x: 0 } : {}}
+             transition={{ duration: 0.8 }}
+             className="inline-flex items-center gap-6 px-10 py-5 bg-red-600/5 border border-red-600/20 text-white hover:bg-red-600 hover:glow-box-red transition-all duration-300 min-h-[56px] outline-none"
+             aria-label="Accéder à la chaîne YouTube officielle de Vano Baby"
+          >
+             <span className="text-xs font-bold uppercase tracking-[0.4em]">YouTube Official</span>
+             <Play size={16} className="fill-current" />
+          </motion.a>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-5 space-y-8"
+          >
+             <h3 className="section-subtitle !text-white/20">Spotlight</h3>
+             <div className="group relative aspect-square md:aspect-[4/3] lg:aspect-square overflow-hidden rounded-sm border border-white/5 shadow-2xl bg-black">
+                <Image 
+                   src="/images/music_cover_diyo.png" 
+                   alt="Album Cover — DIYØ Vano Baby" 
+                   fill 
+                   className="object-cover group-hover:scale-105 transition-all duration-1000 grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100"
+                   sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-8 md:p-12 bg-gradient-to-t from-black via-black/50 to-transparent">
+                   <div className="flex items-center justify-between gap-4">
+                      <div>
+                         <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest mb-2 block">Dernier Succès</span>
+                         <h4 className="font-bebas text-4xl md:text-6xl text-white tracking-widest leading-none mb-4 uppercase">DIYØ</h4>
+                      </div>
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center bg-red-600 glow-box-red group-hover:scale-110 transition-transform duration-500">
+                         <Play size={24} className="text-white fill-current translate-x-1" />
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <p className="text-lg text-text-secondary leading-relaxed font-light italic border-l border-white/5 pl-8 uppercase tracking-widest text-xs font-bold">
+                "Un titre introspectif qui redéfinit le rap africain moderne."
+             </p>
+          </motion.div>
+
+          <div className="lg:col-span-7 space-y-12">
+             <h3 className="section-subtitle !text-white/20">Histoires de Rue — Top Hits</h3>
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                {TRACKS_HITS.slice(0, 6).map((track, i) => (
+                  <motion.div
+                    key={track.title}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
+                    className="glass-card group flex items-center justify-between p-7 md:p-10 cursor-pointer rounded-sm outline-none"
+                    aria-label={`Écouter ${track.title} de Vano Baby — Redirection YouTube`}
+                  >
+                    <div className="space-y-1">
+                       <span className="text-[8px] font-bold text-red-500 bg-red-600/10 px-2 py-0.5 rounded-sm uppercase tracking-widest border border-red-600/10">{track.tag}</span>
+                       <h4 className="font-bebas text-2xl md:text-3xl text-white group-hover:text-red-500 transition-colors uppercase tracking-widest leading-none mt-3">{track.title}</h4>
+                       <span className="block text-[10px] text-white/30 font-bold tracking-widest mt-1 uppercase">{track.year} • {ARTIST.stageName}</span>
+                    </div>
+                    <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red-600/50 group-hover:bg-red-600 transition-all opacity-20 group-hover:opacity-100 duration-500">
+                       <Play size={16} className="text-white fill-current group-hover:fill-white translate-x-0.5" />
+                    </div>
+                  </motion.div>
+                ))}
+             </div>
+
+             <div className="pt-16 border-t border-white/5 space-y-10">
+                <span className="block text-[10px] uppercase font-bold text-white/20 tracking-[0.4em]">Sorties Récentes du Ghetto</span>
+                <div className="flex flex-col gap-6">
+                   {TRACKS_RECENT.map((track, i) => (
+                     <div key={track.title} className="flex items-center justify-between group cursor-pointer border-b border-white/[0.04] pb-6 hover:border-red-600/50 transition-all duration-300">
+                        <div className="flex items-center gap-8 md:gap-12">
+                           <span className="text-sm font-bebas text-white/20">0{i+1}</span>
+                           <span className="font-bebas text-2xl md:text-3xl text-white group-hover:text-red-500 transition-colors tracking-widest uppercase">{track.title} {track.feat && <span className="text-[10px] text-white/30 font-poppins lowercase tracking-normal pl-2">{track.feat}</span>}</span>
+                        </div>
+                        <div className="flex items-center gap-6">
+                           <span className="text-[10px] text-white/20 group-hover:text-white transition-colors uppercase tracking-widest font-bold font-poppins">{track.year}</span>
+                           <ExternalLink size={14} className="text-white/10 group-hover:text-red-600 transition-colors" />
+                        </div>
+                     </div>
+                   ))}
+                </div>
+             </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,178 +1,126 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description HeroSection — Vano Baby Website
+ * @description HeroSection — Landing Ultra-Rhythmic & Responsive
  * @created 2026-03-24
+ * @updated 2026-03-24 Optimization Clamp Typography, Responsive Spacing & A11y
  */
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Calendar } from "lucide-react";
+import { Play, TrendingUp, Mic2, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { ARTIST, SOCIALS } from "@/lib/data";
 
 export function HeroSection() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
-    >
-      {/* Background Image */}
+    <section id="hero" className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
+      {/* Dynamic Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero.png"
-          alt="Vano Baby en concert"
+          alt="Vano Baby Official Background"
           fill
+          className="object-cover grayscale brightness-[0.25] contrast-125 animate-ken-burns"
           priority
-          className="object-cover object-center opacity-30"
-          style={{ filter: "saturate(0.8) brightness(0.7)" }}
+          sizes="100vw"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to right, rgba(8,8,8,0.95) 40%, rgba(8,8,8,0.4) 100%)"
-        }} />
-        {/* Red glow bottom */}
-        <div className="absolute bottom-0 inset-x-0 h-1/3" style={{
-          background: "linear-gradient(to top, rgba(139,0,0,0.25), transparent)"
-        }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/40" />
       </div>
 
-      {/* Smoke/radial effects */}
-      <div className="smoke-bg z-0" />
-
-      {/* Animated red line */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 1.2, duration: 1.5, ease: "easeOut" }}
-        className="absolute left-0 right-0 bottom-0 h-[1px] origin-left z-10"
-        style={{ background: "linear-gradient(90deg, var(--red-neon), transparent)" }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pt-32 pb-20">
-        <div className="max-w-2xl">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="inline-flex items-center gap-3 mb-8"
-          >
-            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-sm tracking-[0.3em] uppercase font-medium text-red-400">
-              Artiste Officiel · Bénin
-            </span>
-          </motion.div>
-
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-            className="font-bebas leading-none mb-2"
-            style={{ fontSize: "clamp(5rem, 14vw, 11rem)", letterSpacing: "0.04em" }}
-          >
-            <span className="glow-red text-white">VANO</span>
-          </motion.h1>
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65, duration: 0.8, ease: "easeOut" }}
-            className="font-bebas leading-none mb-6"
-            style={{ fontSize: "clamp(5rem, 14vw, 11rem)", letterSpacing: "0.04em", color: "var(--red-neon)" }}
-          >
-            BABY
-          </motion.h1>
-
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.7 }}
-            className="text-base md:text-lg font-medium mb-3 text-white/70 tracking-widest uppercase"
-          >
-            Azéto Gbèdè · Sorcier Vivant
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.7 }}
-            className="text-sm text-white/40 tracking-wider mb-10"
-          >
-            3× Artiste de l&apos;Année au Bénin · 10 ans de carrière
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.6 }}
-            className="flex flex-wrap gap-4"
-          >
-            <a
-              href="https://www.youtube.com/@vanobaby"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-neon flex items-center gap-2 cursor-pointer"
-              aria-label="Écouter Vano Baby sur YouTube"
-            >
-              <Play size={16} fill="white" />
-              Écouter Maintenant
-            </a>
-            <a
-              href="#contact"
-              className="btn-outline flex items-center gap-2 cursor-pointer"
-              aria-label="Réserver Vano Baby pour un concert"
-            >
-              <Calendar size={16} />
-              Réserver un Concert
-            </a>
-          </motion.div>
-
-          {/* Social proof */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.8 }}
-            className="flex items-center gap-6 mt-12"
-          >
-            {[
-              { num: "10+", label: "Ans de carrière" },
-              { num: "3×", label: "Artiste de l'Année" },
-              { num: "2M+", label: "Fans & Followers" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div
-                  className="font-bebas text-2xl"
-                  style={{ color: "var(--red-neon)" }}
-                >
-                  {stat.num}
-                </div>
-                <div className="text-xs text-white/40 tracking-wide uppercase">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
-      >
-        <span className="text-xs text-white/30 tracking-[0.3em] uppercase">Scroll</span>
+      <div className="relative z-10 container-custom flex flex-col items-center text-center">
+        {/* Top Feature Tagline */}
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          className="w-[1px] h-8"
-          style={{ background: "linear-gradient(to bottom, var(--red-neon), transparent)" }}
-        />
-      </motion.div>
+           initial={{ opacity: 0, y: 30 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.8, delay: 0.2 }}
+           className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-12"
+        >
+          <Star size={12} className="text-red-500 fill-red-500" />
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.5em] text-white/80">
+             AZÉTO GBÈDÈ • L'OFFICIEL DU GHETTO
+          </span>
+        </motion.div>
+
+        {/* Impact Title with Clamp */}
+        <div className="relative mb-16">
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+            className="font-bebas-hero text-white"
+          >
+            <span className="block drop-shadow-[0_10px_40px_rgba(0,0,0,0.8)]">VANO</span>
+            <span className="block text-red-600 drop-shadow-[0_0_40px_rgba(255,26,26,0.3)] mt-[-0.15em]">BABY</span>
+          </motion.h1>
+          
+          <motion.p
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             transition={{ duration: 1, delay: 1 }}
+             className="text-xs sm:text-lg md:text-2xl font-medium tracking-[0.6em] text-white/40 uppercase mt-4 italic"
+          >
+             Sorcier Vivant · Survivant
+          </motion.p>
+        </div>
+
+        {/* Primary/Secondary CTA Rhythm */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="flex flex-col sm:flex-row items-center gap-6"
+        >
+          <Link
+             href="/contact"
+             className="btn-primary group w-full sm:w-auto"
+             aria-label="Réserver Vano Baby pour un événement — Booking"
+          >
+            <Mic2 size={18} className="mr-3 transition-transform group-hover:rotate-12" />
+            BOOKING MANAGER
+          </Link>
+
+          <a
+            href={SOCIALS.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary group w-full sm:w-auto"
+            aria-label="Regarder les clips officiels de Vano Baby sur YouTube"
+          >
+            <Play size={18} className="mr-3 text-red-600 fill-red-600" />
+            DERNIERS CLIPS
+          </a>
+        </motion.div>
+
+        {/* Footer Metrics for Rhythm */}
+        <motion.div
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           transition={{ duration: 2, delay: 1.5 }}
+           className="hidden md:flex gap-20 mt-24 pt-10 border-t border-white/5 opacity-40 hover:opacity-100 transition-opacity"
+        >
+           <div className="flex items-center gap-4 text-left">
+              <TrendingUp size={24} className="text-red-700" />
+              <div className="leading-tight">
+                <span className="block text-2xl font-bebas text-white">#1</span>
+                <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Charts Bénin</span>
+              </div>
+           </div>
+           <div className="flex items-center gap-4 text-left">
+              <TrendingUp size={24} className="text-red-700" />
+              <div className="leading-tight">
+                <span className="block text-2xl font-bebas text-white">45M+</span>
+                <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Impact YouTube</span>
+              </div>
+           </div>
+        </motion.div>
+      </div>
+
+      {/* Aesthetic Floating Watermark — Background noise */}
+      <div className="absolute left-[3%] top-[30%] opacity-[0.03] rotate-[-90deg] select-none pointer-events-none hidden lg:block">
+         <span className="font-bebas text-[15rem] text-white leading-none whitespace-nowrap">SURVIVANT</span>
+      </div>
     </section>
   );
 }

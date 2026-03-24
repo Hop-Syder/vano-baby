@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vano Baby — Official Portfolio 🎤
 
-## Getting Started
+> **Azéto Gbèdè | Sorcier Vivant**  
+> Site officiel de l'artiste béninois Vano Baby, 3× Artiste de l'Année.
 
-First, run the development server:
+Ce projet est une vitrine premium, sombre et immersive conçue pour refléter l'énergie et l'identité visuelle unique de Vano Baby.
+
+## 🚀 Stack Technique
+
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) & [GSAP](https://greensock.com/gsap/)
+- **Icons**: [Lucide React](https://lucide.dev/) & Custom SVGs
+- **Typography**: Righteous (Headings), Poppins (Body)
+
+## 📁 Architecture du Projet
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+vano-baby/
+├── app/                  # Routes Next.js (Multipage)
+├── components/
+│   ├── layout/           # Navbar, Footer
+│   ├── sections/         # Sections métier (Hero, Bio, Discographie...)
+│   └── ui/               # Composants UI atomiques (CustomCursor...)
+├── lib/
+│   └── data.ts           # SOURCE DE VÉRITÉ (Données, liens, contacts)
+└── public/               # Assets statiques (Images)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Maintenance & Mise à jour du contenu
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Pour mettre à jour les informations du site (prochaines dates de concert, nouveaux singles, liens sociaux), modifiez uniquement le fichier :
+👉 `lib/data.ts`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Booking & Contact
+Le formulaire utilise **Formspree** pour la réception des emails. Pour l'activer en production :
+1. Créez un compte sur [Formspree.io](https://formspree.io/)
+2. Récupérez votre ID de formulaire.
+3. Collez-le dans `lib/data.ts` sur la variable `CONTACT.formspreeEndpoint`.
 
-## Learn More
+## 🎨 Design System
 
-To learn more about Next.js, take a look at the following resources:
+- **Primary Black**: `#080808`
+- **Neon Red**: `#FF1A1A`
+- **Bordeaux**: `#8B0000`
+- **Typo Headings**: Bebas Neue / Righteous
+- **Typo Body**: Poppins
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Auteur & Organisation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Auteur**: [@hopsyder](https://github.com/hopsyder)
+- **Organisation**: Nexus Partners
+- **Mission**: Excellence en développement & design
+- **URL**: [ceo.nexuspartners.xyz](https://ceo.nexuspartners.xyz)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*© 2026 Nexus Partners pour Vano Baby.*

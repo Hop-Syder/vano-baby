@@ -1,165 +1,114 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description GalerieSection — Galerie Vano Baby
+ * @description GalerieSection — Varied Grid Rhythm Responsive (A11y & SEO optimized)
  * @created 2026-03-24
+ * @updated 2026-03-24 Mobile-first Grids, Touch targets 48px, SEO (H1 support)
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
-import { Play } from "lucide-react";
+import { Play, TrendingUp, Music, ExternalLink, Camera } from "lucide-react";
+import { ARTIST } from "@/lib/data";
 
-// SVG YouTube inline
-const YtIcon = ({ size = 24, color = "white" }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-    <path d="M23.5 6.7a2.99 2.99 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.6A2.99 2.99 0 0 0 .5 6.7 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.3 2.99 2.99 0 0 0 2.1 2.1C4.5 20 12 20 12 20s7.5 0 9.4-.6a2.99 2.99 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.3z"/>
-    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f0f0f"/>
+const YtIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.5 6.7a2.99 2.99 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.6A2.99 2.99 0 0 0 .5 6.7 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.3 2.99 2.99 0 0 0 2.1 2.1C4.5 20 12 20 12 20s7.5 0 9.4-.6a2.99 2.99 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.3z" />
+    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f0f0f" />
   </svg>
 );
 
-// Gallery items avec l'image hero générée + placeholders
-const galleryItems = [
-  { type: "image", src: "/images/hero.png", label: "Concert Live", size: "large" },
-  { type: "video", youtubeId: "DtIqJ3m6R30", label: "Diyo — Official", size: "medium" },
-  { type: "placeholder", label: "Backstage 2024", size: "small" },
-  { type: "placeholder", label: "Tournée Europe 2023", size: "small" },
-  { type: "video", youtubeId: "C3JMhV5i_9Q", label: "Bella — Live", size: "medium" },
-  { type: "placeholder", label: "Awards Ceremony", size: "small" },
+const videos = [
+  { id: "DtIqJ3m6R30", label: "DIYØ (Clip Officiel)", type: "Clip", featured: true },
+  { id: "C3JMhV5i_9Q", label: "Madame (Clip Officiel)", type: "Clip", featured: false },
+  { id: "u4tJWhfM4wA", label: "Bella (feat. Blaaz)", type: "Clip", featured: false },
+  { id: "wLg6R6S90nU", label: "Adigoue Gboun Gboun", type: "Hit", featured: true },
+  { id: "3fU7M9_X4Y8", label: "Eusèbe Dossou", type: "Live", featured: false },
+  { id: "X6MvFf5Y6Zc", label: "Russie (feat. Himra)", type: "Clip", featured: false },
 ];
 
-export function GalerieSection() {
+interface GalerieSectionProps {
+  isPageTitle?: boolean;
+}
+
+export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const HeadingTag = isPageTitle ? "h1" : "h2";
 
   return (
-    <section
-      id="galerie"
-      ref={ref}
-      className="relative py-28 overflow-hidden"
-      style={{ background: "var(--bg-secondary)" }}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <div className="section-line mx-auto" />
-          <span className="text-xs font-medium tracking-[0.3em] uppercase text-red-500 mb-4 block">
-            Photos &amp; Vidéos
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white">
-            Gal<span style={{ color: "var(--red-neon)" }}>erie</span>
-          </h2>
-        </motion.div>
+    <section id="galerie" ref={ref} className="relative section-padding overflow-hidden bg-bg-primary">
+      <div className="absolute top-1/4 right-[-5%] opacity-[0.02] select-none pointer-events-none hidden xl:block">
+         <span className="font-bebas text-[20rem] leading-none text-white tracking-[0.2em] whitespace-nowrap rotate-[-90deg]">VISUALS</span>
+      </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {/* Hero Image — Large */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7 }}
-            className="col-span-2 row-span-2 music-card group cursor-pointer rounded-sm overflow-hidden"
-            style={{ aspectRatio: "16/10" }}
-          >
-            <div className="relative w-full h-full">
-              <Image
-                src="/images/hero.png"
-                alt="Vano Baby en concert live"
-                fill
-                className="object-cover"
-                style={{ transition: "transform 0.6s ease" }}
-              />
-              <div className="music-card-overlay">
-                <div className="text-center">
-                  <div className="text-sm font-semibold text-white tracking-wider">Concert Live</div>
-                  <div className="text-xs text-white/50">Cotonou, Bénin</div>
-                </div>
-              </div>
-              {/* Red corner */}
-              <div
-                className="absolute top-3 left-3 text-xs px-2 py-1 rounded"
-                style={{ background: "rgba(255,26,26,0.8)" }}
-              >
-                LIVE
-              </div>
-            </div>
-          </motion.div>
-
-          {/* YouTube embed cards */}
-          {[
-            { id: "DtIqJ3m6R30", label: "Diyo" },
-            { id: "C3JMhV5i_9Q", label: "Madame" },
-          ].map((vid, i) => (
-            <motion.a
-              key={vid.id}
-              href={`https://www.youtube.com/watch?v=${vid.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.15, duration: 0.6 }}
-              className="glass-card relative flex flex-col items-center justify-center cursor-pointer group hover:glow-box-red transition-all duration-300"
-              style={{ aspectRatio: "16/10" }}
-              aria-label={`Regarder ${vid.label} sur YouTube`}
-            >
-              <div
-                className="w-14 h-14 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300"
-                style={{ background: "#FF0000" }}
-              >
-                <YtIcon size={24} color="white" />
-              </div>
-              <span className="text-sm font-semibold text-white">{vid.label}</span>
-              <span className="text-xs text-white/40 mt-1">Voir sur YouTube</span>
-            </motion.a>
-          ))}
-
-          {/* Placeholder cards */}
-          {["Backstage 2024", "Awards 2024", "Tournée Europe"].map((label, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-              className="glass-card flex items-center justify-center cursor-pointer group hover:glow-box-red transition-all duration-300"
-              style={{ aspectRatio: "16/10" }}
-            >
-              <div className="text-center">
-                <div
-                  className="font-bebas text-4xl mb-2 opacity-15"
-                  style={{ color: "var(--red-neon)" }}
-                >
-                  VB
-                </div>
-                <span className="text-xs text-white/30 uppercase tracking-wider">{label}</span>
-              </div>
-            </motion.div>
-          ))}
+      <div className="container-custom relative z-10">
+        <div className="flex flex-col md:flex-row items-end justify-between gap-12 lg:gap-20 mb-20 lg:mb-32">
+           <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8 }}
+              className="max-w-3xl"
+           >
+              <span className="section-subtitle">Vidéos & Clips</span>
+              <HeadingTag className="section-title text-white mb-6">
+                 Galerie <br />
+                 <span className="text-red-700 italic">Multi-Dimensions</span>
+              </HeadingTag>
+              <p className="text-base sm:text-xl text-text-secondary leading-relaxed border-l border-red-600/30 pl-8">
+                 Plongez au cœur de l'univers visuel du <span className="text-white font-bold">Gang</span>. 
+                 Clips officiels et souvenirs backstage exclusifs.
+              </p>
+           </motion.div>
         </div>
 
-        {/* CTA YouTube */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-center mt-12"
-        >
-          <a
-            href="https://www.youtube.com/@vanobaby"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-neon inline-flex items-center gap-2 cursor-pointer"
-            aria-label="Voir toutes les vidéos de Vano Baby sur YouTube"
-          >
-            <YtIcon size={18} />
-            Voir toutes les vidéos
-          </a>
-        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+          {videos.map((vid, i) => {
+            const isFeatured = vid.featured;
+            const gridClass = isFeatured ? "lg:col-span-8 lg:row-span-2" : "lg:col-span-4 lg:row-span-1";
+            
+            return (
+              <motion.a
+                key={vid.id + i}
+                href={`https://www.youtube.com/watch?v=${vid.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.1, duration: 0.8 }}
+                className={`${gridClass} glass-card relative flex flex-col items-center justify-center cursor-pointer group overflow-hidden min-h-[300px] border border-white/5 rounded-sm outline-none`}
+                aria-label={`Regarder le Clip ${vid.label} sur YouTube — Ouvre un nouvel onglet`}
+                suppressHydrationWarning
+              >
+                <div className="absolute inset-0 z-0 bg-bg-secondary">
+                   <Image 
+                      src={`https://img.youtube.com/vi/${vid.id}/maxresdefault.jpg`}
+                      alt={vid.label}
+                      fill
+                      className="object-cover grayscale brightness-[0.25] group-hover:grayscale-0 group-hover:brightness-75 transition-all duration-1000"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                   />
+                </div>
+                <div className="relative z-10 flex flex-col items-center gap-6 text-center px-8 group-hover:translate-y-[-5px] transition-transform duration-500">
+                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center border border-white/10 bg-white/5 backdrop-blur-md group-hover:bg-red-600 group-hover:glow-box-red transition-all duration-500">
+                      <Play size={24} className="text-white fill-current translate-x-0.5" />
+                   </div>
+                   <div className="space-y-3">
+                      <span className="text-[10px] uppercase font-bold tracking-[0.4em] text-red-500 bg-red-600/10 px-4 py-1.5 border border-red-600/20 inline-block">{vid.type}</span>
+                      <h3 className={`font-bebas text-white group-hover:text-red-500 transition-colors tracking-widest leading-none ${isFeatured ? 'text-4xl md:text-7xl lg:text-8xl' : 'text-2xl md:text-4xl'}`}>
+                         {vid.label}
+                      </h3>
+                   </div>
+                </div>
+                <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 hidden md:block">
+                   <div className="bg-red-600 p-2.5 rounded-sm shadow-2xl"><ExternalLink size={16} color="white" /></div>
+                </div>
+              </motion.a>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

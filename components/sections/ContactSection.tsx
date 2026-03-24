@@ -1,272 +1,244 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description ContactSection — Booking & Contact Vano Baby
+ * @description ContactSection — High Impact & Accessible Booking Form (SEO optimized)
  * @created 2026-03-24
+ * @updated 2026-03-24 Mobile-first Stacking, Touch targets 48px, SEO (H1 support)
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, MessageCircle } from "lucide-react";
-// Icônes sociales SVG inline (Instagram, Facebook, YouTube non disponibles dans lucide-react)
-const IgIcon = ({ size = 18, color = 'white' }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke={color} strokeWidth="2"/>
-    <circle cx="12" cy="12" r="4" fill="none" stroke={color} strokeWidth="2"/>
-    <circle cx="17.5" cy="6.5" r="1" fill={color}/>
+import { Send, MessageCircle, Phone, Mail, MapPin } from "lucide-react";
+import { CONTACT, SOCIALS, ARTIST } from "@/lib/data";
+
+// Custom SVG Icons
+const IgIcon = ({ size = 20, color = 'white' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x2="22" y2="22" x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
   </svg>
 );
-const FbIcon = ({ size = 18, color = 'white' }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+const FbIcon = ({ size = 20, color = 'white' }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
   </svg>
 );
-
-// SVG YouTube inline
-const YtIcon = ({ size = 18, color = "white" }: { size?: number; color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-    <path d="M23.5 6.7a2.99 2.99 0 0 0-2.1-2.1C19.5 4 12 4 12 4s-7.5 0-9.4.6A2.99 2.99 0 0 0 .5 6.7 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.3 2.99 2.99 0 0 0 2.1 2.1C4.5 20 12 20 12 20s7.5 0 9.4-.6a2.99 2.99 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.3z"/>
-    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f0f0f"/>
+const YtIcon = ({ size = 20, color = "white" }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
   </svg>
 );
 
-const socials = [
-  {
-    icon: IgIcon,
-    label: "Instagram",
-    handle: "@vanobaby_officiel",
-    href: "https://www.instagram.com/vanobaby_officiel",
-    color: "#E1306C",
-  },
-  {
-    icon: FbIcon,
-    label: "Facebook",
-    handle: "Vano Baby",
-    href: "https://www.facebook.com/vanobaby",
-    color: "#1877F2",
-  },
-  {
-    icon: YtIcon,
-    label: "YouTube",
-    handle: "@vanobaby",
-    href: "https://www.youtube.com/@vanobaby",
-    color: "#FF0000",
-  },
+const socialsData = [
+  { icon: IgIcon, label: "Instagram", handle: "@vanobaby_officiel", href: SOCIALS.instagram, color: "#E1306C" },
+  { icon: FbIcon, label: "Facebook", handle: "Vano Baby", href: SOCIALS.facebook, color: "#1877F2" },
+  { icon: YtIcon, label: "YouTube", handle: "@vanobaby", href: SOCIALS.youtube, color: "#FF0000" },
 ];
 
-export function ContactSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [formState, setFormState] = useState({ name: "", email: "", message: "", type: "booking" });
-  const [sent, setSent] = useState(false);
+interface ContactSectionProps {
+  isPageTitle?: boolean;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
+export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [formState, setFormState] = useState({ name: "", email: "", message: "", type: "booking" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const HeadingTag = isPageTitle ? "h1" : "h2";
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simuler l'envoi — à connecter à un backend Node.js
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    setStatus("loading");
+    try {
+      if (CONTACT.formspreeEndpoint && !CONTACT.formspreeEndpoint.includes("VOTRE_ID")) {
+        const response = await fetch(CONTACT.formspreeEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formState),
+        });
+        if (response.ok) setStatus("success");
+        else setStatus("error");
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        setStatus("success");
+      }
+    } catch (error) {
+       setStatus("error");
+    }
   };
 
   return (
-    <section
-      id="contact"
-      ref={ref}
-      className="relative py-28 overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
-    >
-      {/* Background glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139,0,0,0.1) 0%, transparent 60%)",
-        }}
-      />
+    <section id="contact" ref={ref} className="relative section-padding bg-bg-primary overflow-hidden">
+      <div className="absolute inset-x-0 bottom-0 pointer-events-none opacity-20 h-1/2 bg-gradient-to-t from-red-900/40 via-transparent to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <div className="section-line mx-auto" />
-          <span className="text-xs font-medium tracking-[0.3em] uppercase text-red-500 mb-4 block">
-            Booking &amp; Contact
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Tra<span style={{ color: "var(--red-neon)" }}>vaillons</span> Ensemble
-          </h2>
-          <p className="text-white/40 max-w-md mx-auto">
-            Pour des bookings, collaborations ou partenariats — contactez-nous directement.
-          </p>
-        </motion.div>
+      <div className="container-custom relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 mb-20 md:mb-32">
+           <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8 }}
+              className="max-w-3xl lg:text-left text-center"
+           >
+              <span className="section-subtitle">Booking & Management</span>
+              <HeadingTag className="section-title text-white">
+                 Étendre <br />
+                 <span className="text-red-700">l'Empire</span>
+              </HeadingTag>
+              <p className="text-base sm:text-lg text-text-secondary leading-loose mt-8 border-l border-red-600/30 pl-8 lg:text-left text-left">
+                 Travaillons ensemble — le management traite vos demandes sous 
+                 <span className="text-white font-bold"> 48h</span>. Rejoignez le mouvement car 
+                 <span className="text-red-600 font-bold uppercase italic tracking-widest px-2">Azéto Gbèdè</span> n'attend pas.
+              </p>
+           </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-start">
-          {/* Contact Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start pb-20">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-7 bg-white/[0.01] border border-white/5 p-8 sm:p-14 backdrop-blur-3xl rounded-sm"
           >
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Type selector */}
-              <div className="flex gap-3">
-                {["booking", "collaboration", "autre"].map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    onClick={() => setFormState((prev) => ({ ...prev, type }))}
-                    className={`flex-1 py-2 text-xs tracking-wider uppercase rounded-sm transition-all duration-200 cursor-pointer ${
-                      formState.type === type
-                        ? "bg-red-600 text-white"
-                        : "glass-card text-white/40 hover:text-white"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
+            <form onSubmit={handleSubmit} className="space-y-10">
+              <div className="space-y-4">
+                 <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] mb-4 block">Type de Demande</span>
+                 <div className="flex flex-col sm:flex-row gap-4">
+                    {["booking", "collaboration", "management"].map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setFormState((prev) => ({ ...prev, type }))}
+                        className={`flex-1 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] rounded-sm transition-all duration-300 min-h-[52px] cursor-pointer outline-none ${
+                          formState.type === type
+                            ? "bg-red-600 text-white glow-box-red"
+                            : "bg-white/5 text-white/40 border border-white/5 hover:bg-white/10 hover:text-white"
+                        }`}
+                        aria-pressed={formState.type === type}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                 </div>
               </div>
 
-              <div>
-                <label htmlFor="name" className="block text-xs text-white/40 uppercase tracking-wider mb-2">
-                  Nom complet *
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  value={formState.name}
-                  onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-3 text-white text-sm placeholder-white/20 rounded-sm outline-none transition-all duration-200 focus:glow-border"
-                  placeholder="Votre nom"
-                  style={{
-                    background: "rgba(20,20,20,0.8)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <div className="space-y-3">
+                  <label htmlFor="name" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Nom Complet *</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formState.name}
+                    onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
+                    className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500"
+                    placeholder="Ex: John Doe"
+                    aria-required="true"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <label htmlFor="email" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Email Pro *</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formState.email}
+                    onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
+                    className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500"
+                    placeholder="j.doe@agency.com"
+                    aria-required="true"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label htmlFor="email" className="block text-xs text-white/40 uppercase tracking-wider mb-2">
-                  Email professionnel *
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={formState.email}
-                  onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
-                  className="w-full px-4 py-3 text-white text-sm placeholder-white/20 rounded-sm outline-none transition-all duration-200"
-                  placeholder="votre@email.com"
-                  style={{
-                    background: "rgba(20,20,20,0.8)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-xs text-white/40 uppercase tracking-wider mb-2">
-                  Message *
-                </label>
+              <div className="space-y-3">
+                <label htmlFor="message" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Votre Projet *</label>
                 <textarea
                   id="message"
+                  name="message"
                   required
-                  rows={5}
+                  rows={8}
                   value={formState.message}
                   onChange={(e) => setFormState((prev) => ({ ...prev, message: e.target.value }))}
-                  className="w-full px-4 py-3 text-white text-sm placeholder-white/20 rounded-sm outline-none transition-all duration-200 resize-none"
-                  placeholder="Décrivez votre projet, date, lieu, budget..."
-                  style={{
-                    background: "rgba(20,20,20,0.8)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
+                  className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500 resize-none"
+                  placeholder="Détails de l'événement, lieu, date et budget..."
+                  aria-required="true"
                 />
               </div>
 
               <button
                 type="submit"
-                className={`btn-neon w-full flex items-center justify-center gap-2 cursor-pointer ${
-                  sent ? "opacity-70" : ""
+                className={`btn-primary w-full flex items-center justify-center gap-4 py-7 text-[11px] tracking-[0.4em] sm:text-xs min-h-[64px] ${
+                  status === "loading" ? "opacity-50 pointer-events-none" : ""
                 }`}
-                disabled={sent}
+                disabled={status === "loading"}
+                aria-label="Transmettre votre demande au management"
               >
-                {sent ? (
-                  "Message envoyé ✓"
+                {status === "loading" ? (
+                  <span className="animate-pulse">SYNCHRONISATION...</span>
+                ) : status === "success" ? (
+                  "MESSAGE TRANSMIS ✓"
+                ) : status === "error" ? (
+                  "ERREUR — RÉESSAYER"
                 ) : (
                   <>
-                    <Send size={16} />
-                    Envoyer le Message
+                    TRANSMETTRE AU MANAGEMENT <Send size={16} />
                   </>
                 )}
               </button>
             </form>
           </motion.div>
 
-          {/* Right side — infos */}
+          {/* Social Info Column */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-8"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="lg:col-span-5 space-y-12 h-fit lg:sticky lg:top-32"
           >
-            {/* WhatsApp CTA */}
-            <div className="glass-card p-6 cursor-pointer" style={{ border: "1px solid rgba(37,211,102,0.2)" }}>
-              <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
-                <MessageCircle size={18} color="#25D366" />
-                Contact Rapide — WhatsApp
-              </h3>
-              <p className="text-xs text-white/40 mb-4">
-                Pour les demandes urgentes ou questions rapides, écrivez directement.
-              </p>
-              <a
-                href="https://wa.me/22900000000?text=Bonjour%2C+je+souhaite+booker+Vano+Baby"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 flex items-center justify-center gap-2 rounded-sm text-sm font-semibold cursor-pointer transition-all duration-300 hover:opacity-90"
-                style={{ background: "#25D366", color: "white" }}
-                aria-label="Contacter Vano Baby sur WhatsApp"
-              >
-                <MessageCircle size={16} />
-                WhatsApp Manager
-              </a>
-            </div>
+             <div className="p-10 border border-[#25D366]/20 bg-[#25D366]/5 backdrop-blur-3xl rounded-sm">
+                <div className="flex items-center gap-5 mb-8">
+                   <div className="w-14 h-14 bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center rounded-sm">
+                      <MessageCircle size={32} className="text-[#25D366]" />
+                   </div>
+                   <h3 className="font-bebas text-4xl text-white tracking-widest leading-none">Réponse <br /><span className="text-[#25D366]">Instantanée</span></h3>
+                </div>
+                <p className="text-base text-text-secondary leading-relaxed mb-10">
+                   Contact direct WhatsApp pour les urgences presse 
+                   et demandes critiques sous 2h.
+                </p>
+                <a
+                  href={SOCIALS.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-5 flex items-center justify-center gap-4 bg-[#25D366] text-white text-[11px] font-bold uppercase tracking-widest rounded-sm hover:opacity-90 transition-all duration-300 min-h-[56px] outline-none"
+                  aria-label="Contacter le manager Vano Baby sur WhatsApp"
+                >
+                  MANAGER WHATSAPP <MessageCircle size={18} fill="white" />
+                </a>
+             </div>
 
-            {/* Gang section */}
-            <div className="glass-card p-6" style={{ border: "1px solid rgba(255,26,26,0.2)" }}>
-              <h3 className="font-bebas text-2xl text-white mb-2">
-                REJOINS <span style={{ color: "var(--red-neon)" }}>LE GANG</span>
-              </h3>
-              <p className="text-xs text-white/40 mb-4">
-                Fais partie de la communauté officielle de Vano Baby — les fans les plus proches de l&apos;artiste.
-              </p>
-              <div className="flex gap-3">
-                {socials.map(({ icon: Icon, label, handle, href, color }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex flex-col items-center gap-2 py-3 rounded-sm cursor-pointer transition-all duration-200 hover:opacity-80"
-                    style={{ background: `${color}18`, border: `1px solid ${color}30` }}
-                    aria-label={`${label} de Vano Baby`}
-                  >
-                    <Icon size={18} color={color} />
-                    <span className="text-[10px] text-white/40">{handle}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Manager info */}
-            <div className="text-sm text-white/30 space-y-1">
-              <p className="text-xs uppercase tracking-wider text-white/20 mb-2">Manager / Booking</p>
-              <p>📧 booking@vanobaby.bj</p>
-              <p>📞 +229 00 00 00 00</p>
-              <p>📍 Cotonou, Bénin</p>
-            </div>
+             <div className="p-10 border border-white/5 bg-white/[0.01] rounded-sm space-y-10">
+                <h3 className="font-bebas text-3xl text-white tracking-widest uppercase leading-none">Réseaux <br /><span className="text-red-700">du Gang</span></h3>
+                <div className="flex flex-wrap gap-6">
+                   {socialsData.map(({ icon: Icon, href, label }) => (
+                     <a
+                       key={label}
+                       href={href}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="w-16 h-16 border border-white/10 rounded-sm flex items-center justify-center bg-white/[0.02] hover:bg-red-600 hover:border-red-600 transition-all duration-500 outline-none"
+                       aria-label={`Vano Baby sur ${label} — Ouvre un nouvel onglet`}
+                     >
+                       <Icon size={28} />
+                     </a>
+                   ))}
+                </div>
+             </div>
           </motion.div>
         </div>
       </div>

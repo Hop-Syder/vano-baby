@@ -1,78 +1,115 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description Custom animated cursor
+ * @description CustomCursor — Curseur interactif premium
  * @created 2026-03-24
+ * @updated 2026-03-24 Optimisation performance & Accessibilité (fix leaks + a11y fallback)
  */
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Position brute du curseur
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Springs pour un mouvement fluide (follower effect)
+  const springConfig = { damping: 25, stiffness: 200 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const follower = followerRef.current;
-    if (!cursor || !follower) return;
+    // Désactiver sur mobile/tactile
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
 
-    let followerX = 0, followerY = 0;
-    let targetX = 0, targetY = 0;
-    let rafId: number;
-
-    const onMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      if (!isVisible) setIsVisible(true);
     };
 
-    const animate = () => {
-      followerX += (targetX - followerX) * 0.15;
-      followerY += (targetY - followerY) * 0.15;
-      follower.style.left = `${followerX}px`;
-      follower.style.top = `${followerY}px`;
-      rafId = requestAnimationFrame(animate);
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    // Gestion propre des hovers sur éléments interactifs
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Vérifier si l'élément ou un de ses parents est cliquable
+      const isInteractive = target.closest("a, button, input, textarea, [role='button']");
+      setIsHovered(!!isInteractive);
     };
 
-    const onMouseEnterClickable = () => {
-      cursor.style.transform = "translate(-50%, -50%) scale(2)";
-      follower.style.transform = "translate(-50%, -50%) scale(1.5)";
-      follower.style.opacity = "1";
-    };
-
-    const onMouseLeaveClickable = () => {
-      cursor.style.transform = "translate(-50%, -50%) scale(1)";
-      follower.style.transform = "translate(-50%, -50%) scale(1)";
-      follower.style.opacity = "0.6";
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-    animate();
-
-    // Attach to all clickable elements
-    const bindHover = () => {
-      document.querySelectorAll("a, button, [role='button'], .cursor-pointer").forEach((el) => {
-        el.addEventListener("mouseenter", onMouseEnterClickable);
-        el.addEventListener("mouseleave", onMouseLeaveClickable);
-      });
-    };
-    bindHover();
-    const observer = new MutationObserver(bindHover);
-    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
+    window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(rafId);
-      observer.disconnect();
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
+  }, [mouseX, mouseY, isVisible]);
+
+  if (isMobile) return null;
 
   return (
-    <>
-      <div ref={cursorRef} className="cursor" aria-hidden="true" />
-      <div ref={followerRef} className="cursor-follower" aria-hidden="true" />
-    </>
+    <AnimatePresence>
+      {isVisible && (
+        <>
+          {/* Le point central (Position exacte) */}
+          <motion.div
+            className="fixed top-0 left-0 w-1.5 h-1.5 bg-red-500 rounded-full z-[9999] pointer-events-none"
+            style={{
+              x: mouseX,
+              y: mouseY,
+              translateX: "-50%",
+              translateY: "-50%",
+            }}
+          />
+
+          {/* Le cercle suiveur (Follower fluide) */}
+          <motion.div
+            ref={cursorRef}
+            className="fixed top-0 left-0 rounded-full border border-red-500/30 z-[9998] pointer-events-none flex items-center justify-center overflow-hidden"
+            style={{
+              x: cursorX,
+              y: cursorY,
+              translateX: "-50%",
+              translateY: "-50%",
+              width: isHovered ? 60 : 32,
+              height: isHovered ? 60 : 32,
+              background: isHovered ? "rgba(255, 26, 26, 0.05)" : "transparent",
+              boxShadow: isHovered ? "0 0 20px rgba(255, 26, 26, 0.2)" : "none",
+            }}
+            transition={{
+              type: "spring",
+              damping: 20,
+              stiffness: 250,
+              mass: 0.5,
+            }}
+          >
+            {/* Effet interne lors du hover */}
+            <motion.div
+               animate={{ scale: isHovered ? 1 : 0 }}
+               className="w-1 h-1 bg-red-500 rounded-full glow-red"
+            />
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

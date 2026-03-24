@@ -1,149 +1,93 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description BioSection — Vano Baby Website
+ * @description BioSection — Split Layout Rhythm Responsive
  * @created 2026-03-24
+ * @updated 2026-03-24 Clamp Typography, Section-Padding & Cross-device optimization
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
+import { ARTIST } from "@/lib/data";
 
 export function BioSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section
-      id="bio"
-      ref={ref}
-      className="relative py-28 overflow-hidden"
-      style={{ background: "var(--bg-secondary)" }}
-    >
-      {/* Red glow accent */}
-      <div
-        className="absolute -left-40 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(139,0,0,0.15) 0%, transparent 70%)" }}
-      />
+    <section id="bio" ref={ref} className="relative section-padding bg-bg-primary overflow-hidden">
+      <div className="container-custom relative z-10 flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+        
+        {/* Left Side — Aesthetic Portrait with varied Rhythm */}
+        <motion.div
+           initial={{ opacity: 0, x: -50 }}
+           animate={inView ? { opacity: 1, x: 0 } : {}}
+           transition={{ duration: 1, ease: "easeOut" }}
+           className="relative group w-full"
+        >
+          <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden rounded-sm border border-white/10 shadow-2xl">
+            <Image
+              src="/images/bio_portrait.png"
+              alt="Portrait de Vano Baby (Sorcier Vivant)"
+              fill
+              className="object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            {/* Red accent glow */}
+            <div className="absolute inset-0 bg-red-600/10 mix-blend-overlay group-hover:bg-transparent transition-all" />
+          </div>
+          {/* Floating metadata for rhythm */}
+          <div className="absolute -bottom-8 -right-4 md:-right-12 bg-bg-primary border border-white/5 p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-[200px] md:max-w-xs">
+             <span className="block text-[10px] font-bold text-red-500 tracking-[0.4em] uppercase mb-4">L'Origine</span>
+             <h3 className="text-white mb-2 leading-none">{ARTIST.origin}</h3>
+             <p className="text-[10px] md:text-xs text-text-secondary italic">"On ne nait pas Sorcier Vivant, on le devient par le feu."</p>
+          </div>
+        </motion.div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left: Photo placeholder with frame */}
-          <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="relative"
-          >
-            <div
-              className="relative aspect-[3/4] rounded-sm overflow-hidden glow-border"
-              style={{ maxWidth: "420px" }}
-            >
-              {/* Gradient placeholder */}
-              <div
-                className="w-full h-full"
-                style={{
-                  background: "linear-gradient(135deg, #0f0f0f 0%, #1a0000 40%, #0f0f0f 100%)",
-                }}
-              />
-              {/* Center text */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span
-                  className="font-bebas text-8xl opacity-10"
-                  style={{ color: "var(--red-neon)" }}
-                >
-                  VB
-                </span>
-              </div>
-              {/* Red corner accent */}
-              <div
-                className="absolute top-0 right-0 w-12 h-12"
-                style={{
-                  background: "linear-gradient(135deg, transparent 50%, var(--red-neon) 50%)",
-                }}
-              />
-              <div
-                className="absolute bottom-0 left-0 w-12 h-12"
-                style={{
-                  background: "linear-gradient(315deg, transparent 50%, var(--red-bordeaux) 50%)",
-                }}
-              />
-            </div>
-            {/* Floating stat card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -bottom-6 -right-6 glass-card p-5"
-              style={{ border: "1px solid rgba(255, 26, 26, 0.25)" }}
-            >
-              <div
-                className="font-bebas text-3xl"
-                style={{ color: "var(--red-neon)" }}
-              >
-                2013
-              </div>
-              <div className="text-xs text-white/50 uppercase tracking-wider">
-                Début de carrière
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right: Bio text */}
-          <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-          >
-            <div className="section-line" />
-            <span className="text-xs font-medium tracking-[0.3em] uppercase text-red-500 mb-4 block">
-              Biographie
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
-              L&apos;Artiste Qui<br />
-              <span style={{ color: "var(--red-neon)" }}>Redéfinit</span> La Scène
+        {/* Right Side — High-contrast Text Layer */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          className="space-y-10 lg:space-y-14"
+        >
+          <div>
+            <span className="section-subtitle">L'Histoire</span>
+            <h2 className="section-title text-white mb-8">
+              Au-delà de <br />
+              <span className="text-red-700">la légende</span>
             </h2>
+          </div>
 
-            <div className="space-y-4 text-white/60 leading-relaxed">
-              <p>
-                Vano Baby, de son vrai nom <strong className="text-white/80">Aurel Sylvanus Adjivon</strong>, est
-                un artiste béninois né à Cotonou et originaire de Grand-Popo. Passionné de musique
-                dès son jeune âge, il fait ses premiers pas dans le rap avant de s&apos;imposer
-                comme l&apos;une des figures majeures de la scène urbaine béninoise.
-              </p>
-              <p>
-                Révélé au grand public en 2013 avec le titre <em className="text-white">Drague Azonto</em>,
-                il connaît une ascension rapide après avoir remporté le concours{" "}
-                <strong className="text-white/80">MTN Découverte Talents</strong> en 2014.
-              </p>
-              <p>
-                Son style, à la fois provocateur et authentique, lui permet de se démarquer et de
-                captiver un large public. Aujourd&apos;hui, il est considéré comme l&apos;un des artistes
-                les plus influents et respectés du Bénin — trois fois consacré{" "}
-                <strong style={{ color: "var(--red-neon)" }}>Artiste de l&apos;Année</strong>.
-              </p>
-            </div>
+          <div className="space-y-6 md:space-y-10">
+             <p className="text-lg sm:text-2xl font-light text-white leading-relaxed border-l-2 border-red-600 pl-8 drop-shadow-sm">
+                Révélé par le bitume de <span className="font-bold">{ARTIST.city}</span>, 
+                Vano Baby transcende le simple statut de rappeur pour devenir 
+                la <span className="text-red-600 font-bold uppercase italic tracking-widest">Voix du Gang</span>.
+             </p>
+             <div className="text-sm sm:text-lg text-text-secondary leading-loose space-y-6 font-poppins">
+                {ARTIST.bio.split('\n\n').map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+             </div>
+          </div>
 
-            {/* Badges */}
-            <div className="flex flex-wrap gap-3 mt-8">
-              {["Rap / Hip-hop", "Afropop", "Azéto Gbèdè", "Sorcier Vivant", "Le Gang"].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs tracking-wider uppercase px-4 py-2 rounded-sm"
-                    style={{
-                      background: "rgba(255,26,26,0.08)",
-                      border: "1px solid rgba(255,26,26,0.2)",
-                      color: "#ff6666",
-                    }}
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
-            </div>
-          </motion.div>
-        </div>
+          <div className="flex flex-wrap gap-8 md:gap-16 pt-10 border-t border-white/5">
+            {ARTIST.stats.map((stat, i) => (
+              <div key={i} className="space-y-1">
+                <span className="block font-bebas text-5xl md:text-6xl text-white tracking-widest">{stat.num}</span>
+                <span className="block text-[9px] md:text-[10px] uppercase font-bold text-red-600 tracking-[0.4em]">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Background typographic noise for rhythm */}
+      <div className="absolute right-[-5%] top-[10%] opacity-[0.03] select-none pointer-events-none hidden xl:block">
+         <span className="font-bebas text-[20rem] text-white leading-none whitespace-nowrap rotate-12">AZÉTO GBÈDÈ</span>
       </div>
     </section>
   );
