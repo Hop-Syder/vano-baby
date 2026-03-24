@@ -1,21 +1,21 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description GalerieSection — Varied Grid Rhythm Responsive (Updated with Top Viewed Videos)
+ * @description GalerieSection — Varied Grid Rhythm Responsive (Hydration Fix & Clean IDs)
  * @created 2026-03-24
- * @updated 2026-03-24 Integration of Official IDs (Do Bandit Min - ppiPCJrTO2I) & Cleanup
+ * @updated 2026-03-24 Fixed Hydration Mismatch & Corrected Video IDs
  */
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Play, ExternalLink, Camera } from "lucide-react";
 
 // Top Viewed Official YouTube Videos (Clean & Synchronized)
 const videos = [
    { id: "lcmT2sUppFA", label: "Fitè (Clip Officiel)", type: "13M+ Vues", featured: true },
-   { id: "Y5BzevHKj70", label: "Russie (feat. HIMRA)", type: "8.4M+ Vues", featured: false },
+   { id: "X6MvFf5Y6Zc", label: "Russie (feat. HIMRA)", type: "8.4M+ Vues", featured: false },
    { id: "KXmn-LWazy8", label: "DIYO", type: "6M+ Vues", featured: false },
    { id: "ppiPCJrTO2I", label: "Do Bandit Min (Clip Officiel)", type: "4.1M+ Vues", featured: true },
    { id: "L6B4MsYQ8Fk", label: "Tu mérites tout (Clip Officiel)", type: "4.2M+ Vues", featured: false },
@@ -40,6 +40,21 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
    const ref = useRef(null);
    const inView = useInView(ref, { once: true, margin: "-100px" });
    const HeadingTag = isPageTitle ? "h1" : "h2";
+   const [isMounted, setIsMounted] = useState(false);
+
+   useEffect(() => {
+      setIsMounted(true);
+   }, []);
+
+   if (!isMounted) {
+      return (
+         <section id="galerie" className="relative py-28 bg-bg-primary min-h-[800px]">
+             <div className="container-custom py-20 flex items-center justify-center">
+                 <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+             </div>
+         </section>
+      );
+   }
 
    return (
       <section id="galerie" ref={ref} className="relative section-padding overflow-hidden bg-bg-primary">
@@ -105,7 +120,6 @@ export function GalerieSection({ isPageTitle = false }: GalerieSectionProps) {
                         transition={{ delay: i * 0.1, duration: 0.8 }}
                         className={`${gridClass} glass-card relative flex flex-col items-center justify-center cursor-pointer group overflow-hidden min-h-[300px] border border-white/5 rounded-sm outline-none`}
                         aria-label={`Regarder le Clip ${vid.label} sur YouTube`}
-                        suppressHydrationWarning
                      >
                         <div className="absolute inset-0 z-0 bg-bg-secondary">
                            <Image
