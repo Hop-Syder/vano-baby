@@ -1,26 +1,242 @@
+/**
+ * @author @hopsyder
+ * @organization Nexus Partners
+ * @description Global CSS — Vano Baby Website Design System
+ * @created 2026-03-24
+ * 🌐 ceo.nexuspartners.xyz
+ * 📧 daoudaabassichristian@gmail.com
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Righteous&family=Bebas+Neue&display=swap');
 @import "tailwindcss";
 
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #080808;
+  --bg-secondary: #0f0f0f;
+  --bg-card: #111111;
+  --red-neon: #FF1A1A;
+  --red-bordeaux: #8B0000;
+  --red-mid: #CC0000;
+  --text-primary: #F8FAFC;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(255, 26, 26, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/*  Custom Cursor  */
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: var(--red-neon);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--red-neon);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+  opacity: 0.6;
+}
+
+/*  Typography  */
+h1, h2, h3 {
+  font-family: 'Righteous', cursive;
+  letter-spacing: 0.02em;
+}
+
+.font-bebas {
+  font-family: 'Bebas Neue', cursive;
+}
+
+/*  Scrollbar  */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--red-bordeaux);
+  border-radius: 4px;
+}
+
+/*  Red glow effects  */
+.glow-red {
+  text-shadow: 0 0 20px rgba(255, 26, 26, 0.8), 0 0 60px rgba(255, 26, 26, 0.4);
+}
+
+.glow-box-red {
+  box-shadow: 0 0 30px rgba(255, 26, 26, 0.3), 0 0 80px rgba(255, 26, 26, 0.1);
+}
+
+.glow-border {
+  border: 1px solid rgba(255, 26, 26, 0.4);
+  box-shadow: 0 0 15px rgba(255, 26, 26, 0.2), inset 0 0 15px rgba(255, 26, 26, 0.05);
+}
+
+/*  Red neon button  */
+.btn-neon {
+  background: linear-gradient(135deg, var(--red-neon), var(--red-bordeaux));
+  color: white;
+  font-family: 'Righteous', cursive;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 0 30px rgba(255, 26, 26, 0.4);
+}
+
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-neon:hover::before {
+  left: 100%;
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 50px rgba(255, 26, 26, 0.7), 0 0 100px rgba(255, 26, 26, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  font-family: 'Righteous', cursive;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 13px 36px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--red-neon);
+  color: var(--red-neon);
+  box-shadow: 0 0 20px rgba(255, 26, 26, 0.3);
+}
+
+/*  Smoke / particle bg  */
+.smoke-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(139,0,0,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(255,26,26,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 90%, rgba(139,0,0,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/*  Section divider  */
+.section-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-neon), transparent);
+  margin-bottom: 16px;
+}
+
+/*  Glassmorphism card dark  */
+.glass-card {
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 26, 26, 0.12);
+  border-radius: 4px;
+}
+
+/*  Noise overlay  */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/*  Timeline  */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--red-bordeaux), transparent);
+  transform: translateX(-50%);
+}
+
+/*  Music card hover  */
+.music-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.music-card:hover {
+  transform: translateY(-6px);
+}
+
+.music-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(139,0,0,0.3) 60%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-card:hover .music-card-overlay {
+  opacity: 1;
+}
+
+/*  Prefers reduced motion  */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
