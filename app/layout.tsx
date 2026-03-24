@@ -14,6 +14,7 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { SplashScreen } from "@/components/ui/SplashScreen";
 import { BackgroundAudio } from "@/components/ui/BackgroundAudio";
 import { ARTIST, CONTACT, SOCIALS } from "@/lib/data";
+import { Analytics } from "@vercel/analytics/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -96,6 +97,7 @@ export default function RootLayout({
         <CustomCursor />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
