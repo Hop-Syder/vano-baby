@@ -47,10 +47,24 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [formState, setFormState] = useState({ name: "", email: "", message: "", type: "booking" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const HeadingTag = isPageTitle ? "h1" : "h2";
+
+  const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
+      setStatus("error");
+      setErrorMessage("Merci de remplir tous les champs obligatoires.");
+      return;
+    }
+    if (!isValidEmail(formState.email)) {
+      setStatus("error");
+      setErrorMessage("L'email n'est pas valide.");
+      return;
+    }
+    setErrorMessage(null);
     setStatus("loading");
     try {
       if (CONTACT.formspreeEndpoint && !CONTACT.formspreeEndpoint.includes("VOTRE_ID")) {
@@ -66,7 +80,8 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
         setStatus("success");
       }
     } catch (error) {
-       setStatus("error");
+      setStatus("error");
+      setErrorMessage("Une erreur est survenue. Merci de réessayer.");
     }
   };
 
@@ -103,8 +118,8 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
             className="lg:col-span-7 bg-white/[0.01] border border-white/5 p-8 sm:p-14 backdrop-blur-3xl rounded-sm"
           >
             <form onSubmit={handleSubmit} className="space-y-10">
-              <div className="space-y-4">
-                 <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] mb-4 block">Type de Demande</span>
+             <div className="space-y-4">
+                 <span className="text-[10px] font-bold text-white/70 uppercase tracking-[0.4em] mb-4 block">Type de Demande</span>
                  <div className="flex flex-col sm:flex-row gap-4">
                     {["booking", "collaboration", "management"].map((type) => (
                       <button
@@ -114,7 +129,7 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
                         className={`flex-1 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] rounded-sm transition-all duration-300 min-h-[52px] cursor-pointer outline-none ${
                           formState.type === type
                             ? "bg-red-600 text-white glow-box-red"
-                            : "bg-white/5 text-white/40 border border-white/5 hover:bg-white/10 hover:text-white"
+                            : "bg-white/5 text-white/70 border border-white/5 hover:bg-white/10 hover:text-white"
                         }`}
                         aria-pressed={formState.type === type}
                       >
@@ -126,28 +141,36 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 <div className="space-y-3">
-                  <label htmlFor="name" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Nom Complet *</label>
+                  <label htmlFor="name" className="text-[10px] font-bold text-white/70 uppercase tracking-[0.4em] block">Nom Complet *</label>
                   <input
                     id="name"
                     name="name"
                     type="text"
                     required
                     value={formState.name}
-                    onChange={(e) => setFormState((prev) => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => {
+                      setStatus("idle");
+                      setErrorMessage(null);
+                      setFormState((prev) => ({ ...prev, name: e.target.value }));
+                    }}
                     className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500"
                     placeholder="Ex: John Doe"
                     aria-required="true"
                   />
                 </div>
                 <div className="space-y-3">
-                  <label htmlFor="email" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Email Pro *</label>
+                  <label htmlFor="email" className="text-[10px] font-bold text-white/70 uppercase tracking-[0.4em] block">Email Pro *</label>
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
                     value={formState.email}
-                    onChange={(e) => setFormState((prev) => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) => {
+                      setStatus("idle");
+                      setErrorMessage(null);
+                      setFormState((prev) => ({ ...prev, email: e.target.value }));
+                    }}
                     className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500"
                     placeholder="j.doe@agency.com"
                     aria-required="true"
@@ -156,14 +179,18 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
               </div>
 
               <div className="space-y-3">
-                <label htmlFor="message" className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block">Votre Projet *</label>
+                <label htmlFor="message" className="text-[10px] font-bold text-white/70 uppercase tracking-[0.4em] block">Votre Projet *</label>
                 <textarea
                   id="message"
                   name="message"
                   required
                   rows={8}
                   value={formState.message}
-                  onChange={(e) => setFormState((prev) => ({ ...prev, message: e.target.value }))}
+                  onChange={(e) => {
+                    setStatus("idle");
+                    setErrorMessage(null);
+                    setFormState((prev) => ({ ...prev, message: e.target.value }));
+                  }}
                   className="w-full bg-white/[0.02] border border-white/10 p-5 text-white placeholder-white/10 rounded-sm outline-none focus:border-red-600 focus:bg-white/[0.04] transition-all duration-500 resize-none"
                   placeholder="Détails de l'événement, lieu, date et budget..."
                   aria-required="true"
@@ -190,6 +217,14 @@ export function ContactSection({ isPageTitle = false }: ContactSectionProps) {
                   </>
                 )}
               </button>
+              <div
+                className="text-sm text-red-400 min-h-[1.5rem]"
+                role="status"
+                aria-live="polite"
+              >
+                {status === "success" && "Message transmis. Le management vous répond sous 48h."}
+                {errorMessage && status === "error" && errorMessage}
+              </div>
             </form>
           </motion.div>
 

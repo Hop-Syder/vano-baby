@@ -27,7 +27,7 @@ export function HeroSection() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/80" />
       </div>
 
 
@@ -38,7 +38,7 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-            className="font-bebas text-white leading-[0.82] tracking-[-0.02em] text-[clamp(3.35rem,14vw,4.6rem)] md:text-[clamp(4.75rem,19vw,12rem)] lg:text-[clamp(5.25rem,22vw,12.5rem)]"
+            className="font-bebas text-white leading-[0.82] tracking-[-0.02em] text-[clamp(6rem,20vw,10rem)] md:text-[clamp(4.75rem,19vw,12rem)] lg:text-[clamp(5.25rem,22vw,12.5rem)]"
           >
             <span className="block drop-shadow-[0_10px_40px_rgba(0,0,0,0.8)]">VANO</span>
             <span className="block text-red-600 drop-shadow-[0_0_40px_rgba(255,26,26,0.3)] mt-[-0.15em]">BABY</span>

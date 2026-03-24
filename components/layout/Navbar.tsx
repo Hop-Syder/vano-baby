@@ -83,7 +83,7 @@ export function Navbar() {
               <span className="block font-bebas text-xl md:text-2xl text-white tracking-widest leading-none">
                 {ARTIST.stageName.split(' ')[0]} <span className="text-red-600">{ARTIST.stageName.split(' ')[1]}</span>
               </span>
-              <span className="block text-[8px] uppercase tracking-[0.4em] text-white/30 font-bold">Official Site</span>
+              <span className="block text-[8px] uppercase tracking-[0.4em] text-white/60 font-bold">Official Site</span>
             </div>
           </Link>
 
@@ -170,12 +170,12 @@ export function Navbar() {
              <motion.div 
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
-               transition={{ delay: 0.6 }}
+             transition={{ delay: 0.6 }}
                className="relative z-10 mt-20 flex gap-8 md:gap-14 pt-10 border-t border-white/5"
              >
-                <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="Instagram"><IgIcon size={28} /></a>
-                <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="Facebook"><FbIcon size={28} /></a>
-                <a href={SOCIALS.youtube} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="YouTube"><YtIcon size={28} /></a>
+                <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-red-500 transition-colors p-3" aria-label="Instagram"><IgIcon size={28} /></a>
+                <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-red-500 transition-colors p-3" aria-label="Facebook"><FbIcon size={28} /></a>
+                <a href={SOCIALS.youtube} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-red-500 transition-colors p-3" aria-label="YouTube"><YtIcon size={28} /></a>
              </motion.div>
           </motion.div>
         )}

@@ -71,8 +71,8 @@ export function ConcertsSection() {
                        </span>
                        <div className="h-10 w-[1px] bg-red-600/20 hidden sm:block" />
                        <div className="space-y-1">
-                          <span className="block text-xl font-bebas text-white tracking-widest uppercase leading-none">{concert.city} <span className="text-[10px] text-white/30 font-poppins">{concert.country}</span></span>
-                          <span className="block text-[10px] text-white/40 uppercase tracking-widest font-bold font-poppins">{concert.venue}</span>
+                          <span className="block text-xl font-bebas text-white tracking-widest uppercase leading-none">{concert.city} <span className="text-[10px] text-white/70 font-poppins">{concert.country}</span></span>
+                          <span className="block text-[10px] text-white/70 uppercase tracking-widest font-bold font-poppins">{concert.venue}</span>
                        </div>
                     </div>
 
@@ -80,7 +80,7 @@ export function ConcertsSection() {
                     <div className="flex flex-wrap items-center gap-4 sm:gap-10">
                        <div className="hidden md:flex flex-col items-end">
                           <span className="text-[9px] font-bold text-red-600 uppercase tracking-widest mb-1">{concert.type}</span>
-                          <span className={`text-[10px] font-bold uppercase tracking-widest ${concert.confirmed ? 'text-green-500/60' : 'text-white/20'}`}>
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${concert.confirmed ? 'text-green-500/70' : 'text-white/60'}`}>
                              {concert.confirmed ? '• Confirmé' : '• Optionné'}
                           </span>
                        </div>
@@ -131,7 +131,7 @@ export function ConcertsSection() {
                 
                 <div className="space-y-8">
                    <div className="space-y-2">
-                      <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.4em]">Management Officiel</span>
+                      <span className="text-[9px] font-bold text-white/70 uppercase tracking-[0.4em]">Management Officiel</span>
                       <p className="text-lg text-white font-medium break-all">{CONTACT.email}</p>
                    </div>
                    <div className="space-y-4">
@@ -150,11 +150,11 @@ export function ConcertsSection() {
                 </div>
 
                 <div className="pt-10 mt-10 border-t border-white/5 space-y-4">
-                   <span className="block text-[9px] font-bold text-white/20 uppercase tracking-widest">Flashback — Hits Live</span>
+                   <span className="block text-[9px] font-bold text-white/60 uppercase tracking-widest">Flashback — Hits Live</span>
                    <div className="flex flex-col gap-3">
                       {CONCERTS_PAST.slice(0, 2).map(past => (
                         <div key={past.event} className="flex items-center justify-between text-xs">
-                           <span className="text-white/40">{past.year} — {past.city}</span>
+                           <span className="text-white/70">{past.year} — {past.city}</span>
                            <span className="text-white font-bebas tracking-widest">{past.event.split(' ')[0]}</span>
                         </div>
                       ))}

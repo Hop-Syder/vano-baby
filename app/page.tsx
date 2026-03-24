@@ -8,7 +8,7 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { BioSection } from "@/components/sections/BioSection";
 import { ParcourSection } from "@/components/sections/ParcourSection";
-import { GalerieSection } from "@/components/sections/GalerieSection";
+import { GalerieClient } from "@/components/sections/GalerieClient";
 
 export default function Home() {
   return (
@@ -22,7 +22,7 @@ export default function Home() {
       </div>
 
       {/* Galerie is now SSR friendly and visually rhythmic */}
-      <GalerieSection />
+      <GalerieClient />
     </main>
   );
 }

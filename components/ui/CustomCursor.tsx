@@ -15,6 +15,7 @@ export function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   // Position brute du curseur
   const mouseX = useMotionValue(0);
@@ -32,6 +33,12 @@ export function CustomCursor() {
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
+
+    // Respect du prefers-reduced-motion
+    const reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleReduce = () => setIsReducedMotion(reduceMq.matches);
+    handleReduce();
+    reduceMq.addEventListener("change", handleReduce);
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -61,10 +68,11 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mouseover", handleMouseOver);
+      reduceMq.removeEventListener("change", handleReduce);
     };
   }, [mouseX, mouseY, isVisible]);
 
-  if (isMobile) return null;
+  if (isMobile || isReducedMotion) return null;
 
   return (
     <AnimatePresence>

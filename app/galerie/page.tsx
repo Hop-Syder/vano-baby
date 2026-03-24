@@ -7,7 +7,7 @@
  */
 
 import type { Metadata } from "next";
-import { GalerieSection } from "@/components/sections/GalerieSection";
+import { GalerieClient } from "@/components/sections/GalerieClient";
 
 export const metadata: Metadata = {
   title: "Galerie — Vano Baby",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function GaleriePage() {
   return (
     <main className="pt-20">
-      <GalerieSection isPageTitle={true} />
+      <GalerieClient isPageTitle={true} />
     </main>
   );
 }

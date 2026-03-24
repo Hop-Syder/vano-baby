@@ -70,7 +70,7 @@ export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="lg:col-span-12 xl:col-span-5 space-y-8"
                >
-                  <h3 className="section-subtitle !text-white/20">Spotlight</h3>
+                  <h3 className="section-subtitle !text-white/50">Spotlight</h3>
                   <a
                      href="https://www.youtube.com/watch?v=DtIqJ3m6R30"
                      target="_blank"
@@ -103,7 +103,7 @@ export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
 
                {/* Grid of tracks */}
                <div className="lg:col-span-12 xl:col-span-7 space-y-12">
-                  <h3 className="section-subtitle !text-white/20">Histoires de Rue — Top Hits</h3>
+                  <h3 className="section-subtitle !text-white/50">Histoires de Rue — Top Hits</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
                      {TRACKS_HITS.slice(0, 6).map((track, i) => (
                         <motion.a
@@ -120,7 +120,7 @@ export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
                            <div className="space-y-1">
                               <span className="text-[8px] font-bold text-red-500 bg-red-600/10 px-2 py-0.5 rounded-sm uppercase tracking-widest border border-red-600/10">{track.tag}</span>
                               <h4 className="font-bebas text-2xl md:text-3xl text-white group-hover:text-red-500 transition-colors uppercase tracking-widest leading-none mt-3">{track.title}</h4>
-                              <span className="block text-[10px] text-white/30 font-bold tracking-widest mt-1 uppercase">{track.year} • {ARTIST.stageName}</span>
+                              <span className="block text-[10px] text-white/70 font-bold tracking-widest mt-1 uppercase">{track.year} • {ARTIST.stageName}</span>
                            </div>
                            <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-red-600 group-hover:bg-red-600 transition-all opacity-20 group-hover:opacity-100 duration-500">
                               <Play size={16} className="text-white fill-current group-hover:fill-white translate-x-0.5" />
@@ -131,7 +131,7 @@ export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
 
                   {/* Recent drops */}
                   <div className="pt-16 border-t border-white/5 space-y-10">
-                     <span className="block text-[10px] uppercase font-bold text-white/20 tracking-[0.4em]">Sorties Récentes du Ghetto</span>
+                     <span className="block text-[10px] uppercase font-bold text-white/60 tracking-[0.4em]">Sorties Récentes du Ghetto</span>
                      <div className="flex flex-col gap-6">
                         {TRACKS_RECENT.map((track, i) => (
                            <a
@@ -142,13 +142,13 @@ export function MusiqueSection({ isPageTitle = false }: MusiqueSectionProps) {
                               className="flex items-center justify-between group cursor-pointer border-b border-white/[0.04] pb-6 hover:border-red-600/50 transition-all duration-300 outline-none"
                            >
                               <div className="flex items-center gap-8 md:gap-12">
-                                 <span className="text-sm font-bebas text-white/20">0{i + 1}</span>
+                                 <span className="text-sm font-bebas text-white/60">0{i + 1}</span>
                                  <h4 className="font-bebas text-2xl md:text-3xl text-white group-hover:text-red-500 transition-colors tracking-widest uppercase">
-                                    {track.title} {track.feat && <span className="text-[10px] text-white/30 font-poppins lowercase tracking-normal pl-2">{track.feat}</span>}
+                                    {track.title} {track.feat && <span className="text-[10px] text-white/70 font-poppins lowercase tracking-normal pl-2">{track.feat}</span>}
                                  </h4>
                               </div>
                               <div className="flex items-center gap-6">
-                                 <span className="text-[10px] text-white/20 group-hover:text-white transition-colors uppercase tracking-widest font-bold font-poppins">{track.year}</span>
+                                 <span className="text-[10px] text-white/60 group-hover:text-white transition-colors uppercase tracking-widest font-bold font-poppins">{track.year}</span>
                                  <ExternalLink size={14} className="text-white/10 group-hover:text-red-600 transition-colors" />
                               </div>
                            </a>
