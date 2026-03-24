@@ -1,9 +1,9 @@
 /**
  * @author @hopsyder
  * @organization Nexus Partners
- * @description Navbar — Navigation Responsive Optimisée
+ * @description Navbar — Navigation Responsive Optimisée (Fix Mobile Menu Visibility)
  * @created 2026-03-24
- * @updated 2026-03-24 Touch targets conformes (48px), A11y & Rhythm refined
+ * @updated 2026-03-24 Fix Z-Index Mobile Menu & Visibility on Scroll
  */
 "use client";
 
@@ -65,97 +65,100 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "py-4 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5 shadow-2xl" : "py-8 bg-transparent"
-      }`}
-      aria-label="Navigation principale"
-    >
-      <div className="container-custom flex items-center justify-between">
-        
-        {/* Logo Identity */}
-        <Link href="/" className="group flex items-center gap-3 outline-none" aria-label="Retour à l'accueil">
-          <div className="w-10 h-10 bg-red-600 flex items-center justify-center rounded-sm rotate-45 group-hover:rotate-0 transition-all duration-500">
-             <span className="font-righteous text-2xl text-white -rotate-45 group-hover:rotate-0 transition-all">V</span>
-          </div>
-          <div>
-            <span className="block font-bebas text-xl md:text-2xl text-white tracking-widest leading-none">
-              {ARTIST.stageName.split(' ')[0]} <span className="text-red-600">{ARTIST.stageName.split(' ')[1]}</span>
-            </span>
-            <span className="block text-[8px] uppercase tracking-[0.4em] text-white/30 font-bold">Azéto Gbèdè Official</span>
-          </div>
-        </Link>
-
-        {/* Desktop Links — Touch Target 48px compatible height */}
-        <div className="hidden lg:flex items-center gap-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`relative px-4 py-3 text-[11px] font-bold uppercase tracking-[0.4em] transition-all duration-300 hover:text-red-500 rounded-sm focus-visible:bg-white/5 ${
-                pathname === link.href ? "text-red-500" : "text-white/70"
-              }`}
-              aria-current={pathname === link.href ? "page" : undefined}
-            >
-              {link.name}
-              {pathname === link.href && (
-                <motion.div
-                   layoutId="nav-underline"
-                   className="absolute bottom-0 left-4 right-4 h-[1px] bg-red-600"
-                />
-              )}
-            </Link>
-          ))}
+    <>
+      <nav
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+          scrolled || isOpen ? "py-4 bg-bg-primary/95 backdrop-blur-xl border-b border-white/5" : "py-8 bg-transparent"
+        }`}
+        aria-label="Navigation principale"
+      >
+        <div className="container-custom flex items-center justify-between">
           
-          <Link 
-             href="/contact" 
-             className="ml-6 px-8 py-3 bg-red-600 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-red-500 transition-all shadow-lg min-h-[44px] flex items-center"
-          >
-             BOOKING
+          {/* Logo Identity */}
+          <Link href="/" className="group flex items-center gap-3 outline-none" aria-label="Retour à l'accueil">
+            <div className={`w-10 h-10 ${isOpen ? 'bg-white' : 'bg-red-600'} flex items-center justify-center rounded-sm rotate-45 group-hover:rotate-0 transition-all duration-500`}>
+               <span className={`font-righteous text-2xl ${isOpen ? 'text-red-600' : 'text-white'} -rotate-45 group-hover:rotate-0 transition-all`}>V</span>
+            </div>
+            <div>
+              <span className="block font-bebas text-xl md:text-2xl text-white tracking-widest leading-none">
+                {ARTIST.stageName.split(' ')[0]} <span className="text-red-600">{ARTIST.stageName.split(' ')[1]}</span>
+              </span>
+              <span className="block text-[8px] uppercase tracking-[0.4em] text-white/30 font-bold">Official Site</span>
+            </div>
           </Link>
+
+          {/* Desktop Links */}
+          <div className="hidden lg:flex items-center gap-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`relative px-4 py-3 text-[11px] font-bold uppercase tracking-[0.4em] transition-all duration-300 hover:text-red-500 rounded-sm focus-visible:bg-white/5 ${
+                  pathname === link.href ? "text-red-500" : "text-white/70"
+                }`}
+                aria-current={pathname === link.href ? "page" : undefined}
+              >
+                {link.name}
+                {pathname === link.href && (
+                  <motion.div
+                     layoutId="nav-underline"
+                     className="absolute bottom-0 left-4 right-4 h-[1px] bg-red-600"
+                  />
+                )}
+              </Link>
+            ))}
+            
+            <Link 
+               href="/contact" 
+               className="ml-6 px-8 py-3 bg-red-600 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-red-500 transition-all shadow-lg min-h-[44px] flex items-center"
+            >
+               BOOKING
+            </Link>
+          </div>
+
+          {/* Mobile Toggle — Z-Index higher than overlay to allow closing */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden text-white flex items-center justify-center w-12 h-12 hover:bg-white/5 rounded-sm transition-colors focus-visible:outline-red-500 z-[110]"
+            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={32} /> : <Menu size={32} />}
+          </button>
         </div>
+      </nav>
 
-        {/* Mobile Toggle — Target 48x48px */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden text-white flex items-center justify-center w-12 h-12 hover:bg-white/5 rounded-sm transition-colors focus-visible:outline-red-500"
-          aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={isOpen}
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Fullscreen */}
+      {/* Mobile Menu Fullscreen — Fixed to viewport and High Z-Index */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-bg-primary flex flex-col items-center justify-center p-12 overflow-hidden"
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed inset-0 z-[90] bg-bg-primary flex flex-col items-center justify-center p-12"
             role="dialog"
             aria-modal="true"
           >
+             {/* Background Decoration */}
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] select-none pointer-events-none">
-                <span className="font-bebas text-[15rem] text-white rotate-[-90deg] whitespace-nowrap">GANGBOY</span>
+                <span className="font-bebas text-[15rem] md:text-[25rem] text-white rotate-[-90deg] whitespace-nowrap">GANGBOY</span>
              </div>
 
-             <nav className="relative z-10 flex flex-col items-center gap-10">
+             <nav className="relative z-10 flex flex-col items-center gap-8 md:gap-12">
                 {navLinks.map((link, i) => (
                   <motion.div
                      key={link.name}
-                     initial={{ opacity: 0, y: 30 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ delay: i * 0.1 }}
+                     initial={{ opacity: 0, scale: 0.9 }}
+                     animate={{ opacity: 1, scale: 1 }}
+                     transition={{ delay: i * 0.1 + 0.2 }}
                   >
                      <Link
                         href={link.href}
                         className={`font-bebas text-5xl md:text-8xl transition-all duration-300 block py-2 ${
-                          pathname === link.href ? "text-red-600 scale-110" : "text-white hover:text-red-600/60"
+                          pathname === link.href ? "text-red-600" : "text-white hover:text-red-600/60"
                         }`}
-                        aria-label={`Accéder à ${link.name}`}
+                        aria-label={`Naviguer vers ${link.name}`}
                      >
                         {link.name}
                      </Link>
@@ -163,19 +166,20 @@ export function Navbar() {
                 ))}
              </nav>
 
+             {/* Social Footer */}
              <motion.div 
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
-               transition={{ delay: 0.5 }}
-               className="relative z-10 mt-20 flex gap-10"
+               transition={{ delay: 0.6 }}
+               className="relative z-10 mt-20 flex gap-8 md:gap-14 pt-10 border-t border-white/5"
              >
-                <a href={SOCIALS.instagram} target="_blank" className="text-white/60 hover:text-red-500 transition-colors p-2" aria-label="Instagram de Vano Baby"><IgIcon size={24} /></a>
-                <a href={SOCIALS.facebook} target="_blank" className="text-white/60 hover:text-red-500 transition-colors p-2" aria-label="Facebook de Vano Baby"><FbIcon size={24} /></a>
-                <a href={SOCIALS.youtube} target="_blank" className="text-white/60 hover:text-red-500 transition-colors p-2" aria-label="YouTube de Vano Baby"><YtIcon size={24} /></a>
+                <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="Instagram"><IgIcon size={28} /></a>
+                <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="Facebook"><FbIcon size={28} /></a>
+                <a href={SOCIALS.youtube} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-red-500 transition-colors p-3" aria-label="YouTube"><YtIcon size={28} /></a>
              </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

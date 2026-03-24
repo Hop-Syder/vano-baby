@@ -111,12 +111,13 @@ export const TIMELINE = [
 // ─── Discographie ─────────────────────────────────────────────────────────────
 // Mettre à jour les youtubeUrl avec les vraies URLs une fois confirmées
 export const TRACKS_HITS = [
-  { title: "Diyo", year: "2022", tag: "Mega-Hit", youtubeUrl: "https://www.youtube.com/watch?v=DtIqJ3m6R30" },
+  { title: "Diyo", year: "2022", tag: "Mega-Hit", youtubeUrl: "https://www.youtube.com/watch?v=KXmn-LWazy8" },
   { title: "Bella", year: "2019", tag: "Classique", youtubeUrl: "https://www.youtube.com/watch?v=u4tJWhfM4wA" },
   { title: "Madame", year: "2018", tag: "Banger", youtubeUrl: "https://www.youtube.com/watch?v=C3JMhV5i_9Q" },
   { title: "Adigoue Gboun Gboun", year: "2016", tag: "Iconic", youtubeUrl: "https://www.youtube.com/watch?v=wLg6R6S90nU" },
   { title: "Drague Azonto", year: "2013", tag: "1er Hit", youtubeUrl: "https://www.youtube.com/watch?v=R9N2B-yN9-A" },
   { title: "Nou towé lè", year: "2021", tag: "Street", youtubeUrl: "https://www.youtube.com/watch?v=3fU7M9_X4Y8" },
+  { title: "C'est Toi", year: "2024", tag: "Hit", youtubeUrl: "https://www.youtube.com/watch?v=FIO_LoEDW8g" },
   { title: "Je s'en fou", year: "2020", tag: "Anthem", youtubeUrl: "https://www.youtube.com/@vanobaby" },
   { title: "Tonssimè chap", year: "2020", tag: "Banger", youtubeUrl: "https://www.youtube.com/@vanobaby" },
 ] as const;
@@ -125,7 +126,8 @@ export const TRACKS_RECENT = [
   { title: "Qui peut nous gagner", year: "2026", feat: "", youtubeUrl: "https://www.youtube.com/watch?v=ZpD391R8b4A" },
   { title: "DO BANDIT MIN", year: "2025", feat: "", youtubeUrl: "https://www.youtube.com/watch?v=8XJtZ1e2j7c" },
   { title: "Bô Ébi", year: "2025", feat: "", youtubeUrl: "https://www.youtube.com/watch?v=QbstAWxoU24" },
-  { title: "Fité", year: "2024", feat: "", youtubeUrl: "https://www.youtube.com/watch?v=_gV808FqI_4" },
+  { title: "Russie", year: "2024", feat: "feat. HIMRA", youtubeUrl: "https://www.youtube.com/watch?v=Y5BzevHKj70" },
+  { title: "Fité", year: "2024", feat: "", youtubeUrl: "https://www.youtube.com/watch?v=lcmT2sUppFA" },
 ] as const;
 
 // ─── Concerts ─────────────────────────────────────────────────────────────────
