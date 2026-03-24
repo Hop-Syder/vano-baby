@@ -11,6 +11,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { SplashScreen } from "@/components/ui/SplashScreen";
 import { ARTIST, CONTACT, SOCIALS } from "@/lib/data";
 
 const poppins = Poppins({
@@ -87,7 +88,8 @@ export default function RootLayout({
       >
         {/* Selective Noise Overlay */}
         <div className="noise-overlay" />
-        
+
+        <SplashScreen />
         <Navbar />
         <CustomCursor />
         {children}

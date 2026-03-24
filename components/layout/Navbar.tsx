@@ -10,6 +10,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { ARTIST, SOCIALS } from "@/lib/data";
@@ -76,8 +77,15 @@ export function Navbar() {
           
           {/* Logo Identity */}
           <Link href="/" className="group flex items-center gap-3 outline-none" aria-label="Retour à l'accueil">
-            <div className={`w-10 h-10 ${isOpen ? 'bg-white' : 'bg-red-600'} flex items-center justify-center rounded-sm rotate-45 group-hover:rotate-0 transition-all duration-500`}>
-               <span className={`font-righteous text-2xl ${isOpen ? 'text-red-600' : 'text-white'} -rotate-45 group-hover:rotate-0 transition-all`}>V</span>
+            <div className="w-12 h-12 rounded-sm overflow-hidden bg-white/5 border border-white/10 transition-transform duration-500 group-hover:rotate-[-3deg]">
+              <Image
+                src="/images/logo.svg"
+                alt="Logo Vano Baby"
+                width={48}
+                height={52}
+                className="w-full h-full object-contain"
+                priority
+              />
             </div>
             <div>
               <span className="block font-bebas text-xl md:text-2xl text-white tracking-widest leading-none">
