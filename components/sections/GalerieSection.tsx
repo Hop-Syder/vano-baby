@@ -11,7 +11,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import { Play, ExternalLink, Camera } from "lucide-react";
-import { GALLERY_VIDEOS } from "@/lib/galleryVideos";
+import { GALLERY_VIDEOS } from "@/lib/data";
 
 const YtIcon = ({ size = 20 }: { size?: number }) => (
    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
