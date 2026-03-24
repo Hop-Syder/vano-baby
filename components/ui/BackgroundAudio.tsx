@@ -4,26 +4,28 @@
  */
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function BackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [needsInteraction, setNeedsInteraction] = useState(false);
 
   useEffect(() => {
-    const audio = document.createElement("audio");
-    audio.src = "/audio/vano-fite.mp3";
+    const audio = audioRef.current;
+    if (!audio) return;
     audio.loop = true;
-    audio.volume = 0.2;
-    audioRef.current = audio;
+    audio.volume = 0.3;
 
-    const playAudio = async () => {
+    const tryPlay = async () => {
       try {
         await audio.play();
+        setNeedsInteraction(false);
       } catch (e) {
-        // Autoplay bloqué : on attend une interaction utilisateur
+        setNeedsInteraction(true);
         const onFirstInteraction = async () => {
           try {
             await audio.play();
+            setNeedsInteraction(false);
           } catch (err) {
             // ignore
           }
@@ -35,13 +37,29 @@ export function BackgroundAudio() {
       }
     };
 
-    playAudio();
+    tryPlay();
 
     return () => {
       audio.pause();
-      audioRef.current = null;
     };
   }, []);
 
-  return null;
+  return (
+    <>
+      <audio ref={audioRef} src="/audio/vano-fite.mp3" preload="auto" className="hidden" />
+      {needsInteraction && (
+        <button
+          type="button"
+          onClick={() => {
+            const audio = audioRef.current;
+            if (!audio) return;
+            audio.play().then(() => setNeedsInteraction(false)).catch(() => {});
+          }}
+          className="fixed bottom-6 right-6 z-[200] px-4 py-2 bg-red-600 text-white text-xs font-bold uppercase tracking-[0.2em] rounded-sm shadow-lg hover:bg-red-500 transition-colors"
+        >
+          Activer le son
+        </button>
+      )}
+    </>
+  );
 }
